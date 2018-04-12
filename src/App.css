@@ -3,15 +3,15 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  /*animation: App-logo-spin infinite 20s linear; */
+  height: 150px;
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #fff;
+  height: 200px;
   padding: 20px;
-  color: white;
+  color: black;
 }
 
 .App-title {
@@ -20,6 +20,28 @@
 
 .App-intro {
   font-size: large;
+}
+
+.App-header-nav-link {
+  text-decoration: none;
+  color: #009999;
+}
+
+.App-header-nav-link-active {
+  text-decoration: none;
+  color: #009999;
+  font-weight:bold;
+}
+.App-header-nav-link-active:hover {
+  text-decoration: none;
+  color: #009999;
+  font-weight:bold;
+  cursor:default;
+}
+
+.page-title {
+  font-size: 1.5em;
+  color: #009999
 }
 
 @keyframes App-logo-spin {
