@@ -1,17 +1,36 @@
 .App {
+  height: 100vh;
   text-align: center;
+  margin: 0;
+  padding: 0;
+  display:flex;
+  flex-direction:column;
+}
+
+.topSection {
+  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+  width: 100%
 }
 
 .App-logo {
   /*animation: App-logo-spin infinite 20s linear; */
-  height: 150px;
+  height: 85px;
 }
 
 .App-header {
   background-color: #fff;
-  height: 200px;
-  padding: 20px;
+  height: 110px;
   color: black;
+  text-align: left;
+  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+  width: 100%;
+}
+
+.Nav-Bar {
+  padding-right:40px;
+  background-color: #f7f7f7;
+  height:21px;
+  text-align: right;
 }
 
 .App-title {
@@ -24,11 +43,13 @@
 
 .App-header-nav-link {
   text-decoration: none;
+  font: 400 16px/24px Roboto,sans-serif;
   color: #009999;
 }
 
 .App-header-nav-link-active {
   text-decoration: none;
+  font: 400 16px/24px Roboto,sans-serif;
   color: #009999;
   font-weight:bold;
 }
@@ -41,10 +62,37 @@
 
 .page-title {
   font-size: 1.5em;
-  color: #009999
+  color: #009999;
 }
 
+.page-contents-wrapper{
+  height:100%;
+  flex:1;
+}
+
+.App-footer{
+  padding-left:30px;
+  background-color: #f7f7f7;
+  text-align: left;
+  height:35px;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.Footer-Content{
+  text-align: center;
+  position: relative;
+top: 8px;
+transform: translateY(-50%);
+font-family: sofia-pro,sans-serif;
+font-size: 13px;
+color:rgba(0,0,0,.54);
+}
+
+/*
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+*/
