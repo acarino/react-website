@@ -4,7 +4,7 @@ import Footer from '../components/footer.jsx'
 import * as firebaseui from 'firebaseui'
 import * as routes from '../constants/routes.jsx';
 
-const SignIn = () =>
+const SignUp = () =>
 
   <div className="App">
   <Header homeClass="App-header-nav-link" aboutClass="App-header-nav-link" signinClass="App-header-nav-link-active" homeURL={routes.HOME} aboutURL={routes.ABOUT} signinURL={routes.STOP} />
@@ -14,4 +14,4 @@ const SignIn = () =>
   <Footer />
   </div>
 
-export default SignIn
+export default SignUp

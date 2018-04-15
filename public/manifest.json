@@ -31,7 +31,7 @@
   {
       "src": "favicon.ico",
       "sizes": "152x152 64x64 32x32 24x24 16x16",
-      "type": "iimage/png"
+      "type": "image/png"
   }
   ],
   "start_url": "/",
