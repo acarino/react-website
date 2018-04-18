@@ -1,21 +1,20 @@
 import React, {Component} from 'react'
-import * as routes from '../constants/routes.jsx';
 import { Link, withRouter } from 'react-router-dom';
+import AuthUserContext from './authusercontext.jsx';
 import { auth } from '../firebase';
+import * as routes from '../constants/routes.jsx';
 
 class SignInOutButton extends Component{
-  constructor(props){
-    super(props)
-    console.log("am i logged in? ",this.props.authUser)
-  }
 
  render() {
    return (
       <span>
-        {this.props.authUser
-          ? <SOButton />
-          : <SIButton />
-         }
+        <AuthUserContext.Consumer>
+          {authUser => authUser
+            ? <SOButton />
+            : <SIButton />
+          }
+        </AuthUserContext.Consumer>
       </span>
     );
   }

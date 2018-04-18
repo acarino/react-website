@@ -6,9 +6,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 
 // Sign out Function
 export const doSignOut = () =>
-  console.log("calling sign out")
   auth.signOut();
-  console.log("called sign out")
 
 // Sign Up Function
 export const doCreateUserWithEmailAndPassword = (email, password) =>
