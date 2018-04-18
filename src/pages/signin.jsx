@@ -1,17 +1,103 @@
-import React from 'react'
-import Header from '../components/header.jsx'
-import Footer from '../components/footer.jsx'
-import * as firebaseui from 'firebaseui'
+import React, {Component} from 'react'
+import { withRouter } from 'react-router-dom';
+import { SignUpLink } from './signup.jsx';
+import { auth } from '../firebase';
 import * as routes from '../constants/routes.jsx';
 
-const SignIn = () =>
 
-  <div className="App">
-  <Header homeClass="App-header-nav-link" aboutClass="App-header-nav-link" signinClass="App-header-nav-link-active" homeURL={routes.HOME} aboutURL={routes.ABOUT} signinURL={routes.STOP} />
-  <h1 className="page-title">Sign in to CrowdSurfer!</h1>
-  <div className="page-contents-wrapper"> &nbsp;
-  </div>
-  <Footer />
+const SignIn = ({history}) =>
+
+  <div className="App-Page">
+    <h1 className="page-title">Sign in to CrowdSurfer!</h1>
+    <div className="page-contents-wrapper">
+      <div>
+        <SignInForm history={history} />
+        <br/>
+        <SignUpLink />
+      </div>
+    </div>
   </div>
 
-export default SignIn
+  const byPropKey = (propertyName, value) => () => ({
+  [propertyName]: value,
+});
+
+const INITIAL_STATE = {
+  email: '',
+  password: '',
+  error: null,
+};
+
+class SignInForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { ...INITIAL_STATE };
+  }
+
+  onSubmit = (event) => {
+    const {
+      email,
+      password,
+    } = this.state;
+
+    const {
+      history,
+    } = this.props;
+
+    auth.doSignInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState(() => ({ ...INITIAL_STATE }));
+        history.push(routes.HOME);
+      })
+      .catch(error => {
+        this.setState(byPropKey('error', error));
+      });
+
+    event.preventDefault();
+  }
+
+  render() {
+    const {
+      email,
+      password,
+      error,
+    } = this.state;
+
+    const isInvalid =
+      password === '' ||
+      email === '';
+
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input
+          value={email}
+          onChange={event => this.setState(byPropKey('email', event.target.value))}
+          type="text"
+          placeholder="Email Address"
+          autoComplete="email"
+        />
+        <br/><br/>
+        <input
+          value={password}
+          onChange={event => this.setState(byPropKey('password', event.target.value))}
+          type="password"
+          placeholder="Password"
+          autoComplete="current-password"
+        />
+        <br/><br/>
+        <button disabled={isInvalid} type="submit">
+          Sign In
+        </button>
+
+        { error && <p>{error.message}</p> }
+      </form>
+    );
+  }
+}
+
+export default withRouter(SignIn);
+
+export {
+  SignInForm,
+}

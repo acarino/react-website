@@ -7,6 +7,12 @@
   flex-direction:column;
 }
 
+.App-Page {
+  height: 100vh;
+  display:flex;
+  flex-direction:column;
+}
+
 .topSection {
   box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
   width: 100%
@@ -26,8 +32,17 @@
   width: 100%;
 }
 
+.App-Header-Right{
+  padding-right: 75px;
+  position:relative;
+  top:30px;
+  float:right;
+}
+
+.App-Header-Button{
+}
+
 .Nav-Bar {
-  padding-right:40px;
   background-color: #f7f7f7;
   height:21px;
   text-align: right;
@@ -45,6 +60,7 @@
   text-decoration: none;
   font: 400 16px/24px Roboto,sans-serif;
   color: #009999;
+  margin-right:25px;
 }
 
 .App-header-nav-link-active {
@@ -52,38 +68,71 @@
   font: 400 16px/24px Roboto,sans-serif;
   color: #009999;
   font-weight:bold;
+  margin-right:25px;
 }
 .App-header-nav-link-active:hover {
   text-decoration: none;
   color: #009999;
   font-weight:bold;
   cursor:default;
+  margin-right:25px;
 }
 
+
 .page-title {
+  padding-top: 20px;
+  padding-bottom: 20px;
   font-size: 1.5em;
   color: #009999;
 }
 
 .page-contents-wrapper{
-  height:100%;
-  flex:1;
+  height: 100%;
+  flex: 1;
+}
+
+.App-Text {
+  font-size: .80em;
+}
+
+.App-Link {
+
+  text-decoration: none;
+  font: 400 1em/24px Roboto,sans-serif;
+  color: #009999;
+}
+.Sign-In-Button{
+  width:67px;
+  height:32px;
+  background-color:green;
+  color:black;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.Sign-Out-Button{
+  width: 67px;
+  height: 32px;
+  background-color: red;
+  color: black;
+  font-weight: bold;
+  font-size: 12px;
 }
 
 .App-footer{
-  padding-left:30px;
+  padding-left: 30px;
   background-color: #f7f7f7;
   text-align: left;
-  height:35px;
+  height: 35px;
   -webkit-transform-style: preserve-3d;
   -moz-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
 
 .Footer-Content{
-  text-align: center;
-  position: relative;
-top: 8px;
+text-align: center;
+position: relative;
+top: 4px;
 transform: translateY(-50%);
 font-family: sofia-pro,sans-serif;
 font-size: 13px;

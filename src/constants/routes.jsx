@@ -1,4 +1,5 @@
 export const HOME = '/';
+export const HOMEPAGE = '/home';
 export const EXPLICIT_HOME = '/index.html';
 export const ABOUT = '/about';
 export const PORTAL = '/portal';
