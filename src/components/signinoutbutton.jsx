@@ -22,14 +22,18 @@ class SignInOutButton extends Component{
 }
 
 const SIButton = ({history}) =>
-<Link id="navSignIn" to={routes.SIGN_IN} className="Sign-In-Button">Sign In</Link>
+<Link id="navSignIn" to={routes.SIGN_IN}
+  className="Sign-In-Button-Link">
+  <div className="Sign-In-Button-Div">Sign In</div>
+</Link>
 
 
 const SOButton = ({history}) =>
-
 <Link id="navSignIn" to={routes.HOME}
-className="Sign-Out-Button"
-onClick={auth.doSignOut} >Sign Out</Link>
+  className="Sign-Out-Button-Link"
+  onClick={auth.doSignOut} >
+  <div className="Sign-Out-Button-Div">Sign Out</div>
+</Link>
 
 
 export default withRouter(SignInOutButton);

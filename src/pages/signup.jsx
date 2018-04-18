@@ -2,15 +2,18 @@ import React, { Component }  from 'react'
 import * as routes from '../constants/routes.jsx';
 import { Link, withRouter } from 'react-router-dom';
 import { auth } from '../firebase';
+import FadeIn from 'react-fade-in';
 
 const SignUp = ({history}) =>
 <div className="App-Page">
-  <h1 className="page-title">Sign Up CrowdSurfer!</h1>
-  <div className="page-contents-wrapper">
-    <div>
-      <SignUpForm history={history} />
+  <FadeIn>
+    <h1 className="page-title">Sign Up CrowdSurfer!</h1>
+    <div className="page-contents-wrapper">
+      <div>
+        <SignUpForm history={history} />
+      </div>
     </div>
-  </div>
+  </FadeIn>
 </div>
 
 const INITIAL_STATE = {

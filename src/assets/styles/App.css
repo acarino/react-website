@@ -101,22 +101,38 @@
   font: 400 1em/24px Roboto,sans-serif;
   color: #009999;
 }
-.Sign-In-Button{
+.Sign-In-Button-Link{
+  text-decoration:none;
+}
+
+.Sign-Out-Button-Link{
+  text-decoration:none;
+}
+
+.Sign-In-Button-Div{
+
   width:67px;
   height:32px;
   background-color:green;
   color:black;
   font-weight: bold;
   font-size: 12px;
+  font-style: normal;
+  text-align: center;
+  line-height: 30px;
+  vertical-align: middle;
 }
 
-.Sign-Out-Button{
+.Sign-Out-Button-Div{
   width: 67px;
   height: 32px;
   background-color: red;
   color: black;
   font-weight: bold;
   font-size: 12px;
+  text-align: center;
+  line-height: 30px;
+  vertical-align: middle;
 }
 
 .App-footer{
