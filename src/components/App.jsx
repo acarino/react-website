@@ -10,6 +10,7 @@ import Signin from '../pages/signin.jsx'
 import Portal from '../pages/portal.jsx'
 import Account from '../pages/account.jsx'
 import Signup from '../pages/signup.jsx'
+import ForgotPassword from '../pages/forgotpassword.jsx'
 import Header from '../components/header.jsx'
 import Footer from '../components/footer.jsx'
 
@@ -25,15 +26,15 @@ class App extends Component {
             <Route path={routes.EXPLICIT_HOME} component={Home} />
             <Route path={routes.ABOUT} component={About} />
             <Route path={routes.SIGN_IN} component={Signin} />
+            <Route path={routes.SIGN_UP} component={Signup} />
+            <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
+            <Route path={routes.ACCOUNT} component={Account} />
             <AuthUserContext.Consumer>
               {authUser => authUser
                 ? <Route path={routes.PORTAL} component={Portal} />
                 : <Route path={routes.PORTAL} component={Signin} />
               }
             </AuthUserContext.Consumer>
-            <Route path={routes.SIGN_UP} component={Signup} />
-            <Route path={routes.PASSWORD_FORGOT} component={Signin} />
-            <Route path={routes.ACCOUNT} component={Account} />
           </Switch>
           <Footer />
         </div>
