@@ -15,7 +15,6 @@ const SignIn = ({history}) =>
           <SignInForm history={history} />
           <br/>
           <PasswordForgotLink />
-          <br/>
           <SignUpLink />
         </div>
       </div>
@@ -94,7 +93,7 @@ class SignInForm extends Component {
           Sign In
         </button>
 
-        { error && <p>{error.message}</p> }
+        { error && <p className="App-Text-Error" >{error.message}</p> }
       </form>
     );
   }

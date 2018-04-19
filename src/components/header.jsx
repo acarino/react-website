@@ -30,6 +30,15 @@ class Header extends Component {
                 : ''
               }
             </AuthUserContext.Consumer>
+            <AuthUserContext.Consumer>
+              {authUser => authUser
+                ? <NavLink exact id="navAccount" to={routes.ACCOUNT}
+                  className="App-header-nav-link"
+                  activeClassName="App-header-nav-link-active">My Account
+                </NavLink>
+                : ''
+              }
+            </AuthUserContext.Consumer>
             <NavLink id="navAbout" to={routes.ABOUT}
               className="App-header-nav-link"
               activeClassName="App-header-nav-link-active">About

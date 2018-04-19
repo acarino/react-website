@@ -33,7 +33,7 @@
 }
 
 .App-Header-Right{
-  padding-right: 75px;
+  padding-right: 40px;
   position:relative;
   top:30px;
   float:right;
@@ -93,6 +93,12 @@
 
 .App-Text {
   font-size: .80em;
+  color:#009999;
+}
+
+.App-Text-Error {
+  font-size: .80em;
+  color:red;
 }
 
 .App-Link {
@@ -111,27 +117,27 @@
 
 .Sign-In-Button-Div{
 
-  width:67px;
-  height:32px;
-  background-color:green;
-  color:black;
+  width:86px;
+  height:40px;
+  background-color:#339999;
+  color:#ffffff;
   font-weight: bold;
   font-size: 12px;
   font-style: normal;
   text-align: center;
-  line-height: 33px;
+  line-height: 40px;
   vertical-align: middle;
 }
 
 .Sign-Out-Button-Div{
-  width: 67px;
-  height: 32px;
-  background-color: red;
-  color: black;
+  width: 86px;
+  height: 40px;
+  background-color: #ff3366;
+  color: #ffffff;
   font-weight: bold;
   font-size: 12px;
   text-align: center;
-  line-height: 33px;
+  line-height: 40px;
   vertical-align: middle;
 }
 

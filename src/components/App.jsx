@@ -20,22 +20,13 @@ class App extends Component {
       <Router>
         <div className='App'>
           <Header />
-          <Switch>
-            <Route exact path={routes.HOME} component={Home} />
-            <Route path={routes.HOMEPAGE} component={Home} />
-            <Route path={routes.EXPLICIT_HOME} component={Home} />
-            <Route path={routes.ABOUT} component={About} />
-            <Route path={routes.SIGN_IN} component={Signin} />
-            <Route path={routes.SIGN_UP} component={Signup} />
-            <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
-            <Route path={routes.ACCOUNT} component={Account} />
             <AuthUserContext.Consumer>
-              {authUser => authUser
-                ? <Route path={routes.PORTAL} component={Portal} />
-                : <Route path={routes.PORTAL} component={Signin} />
+              {
+                authUser => authUser
+                ? <AuthedNav />
+                : <UnAuthedNav />
               }
             </AuthUserContext.Consumer>
-          </Switch>
           <Footer />
         </div>
       </Router>
@@ -43,4 +34,32 @@ class App extends Component {
   }
 }
 
+const UnAuthedNav = () =>
+<Switch>
+<Route exact path={routes.HOME} component={Home} />
+<Route path={routes.HOMEPAGE} component={Home} />
+<Route path={routes.EXPLICIT_HOME} component={Home} />
+<Route path={routes.ABOUT} component={About} />
+<Route path={routes.SIGN_IN} component={Signin} />
+<Route path={routes.SIGN_UP} component={Signup} />
+<Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
+<Route path={routes.ACCOUNT} component={Signin} />
+<Route path={routes.PORTAL} component={Signin} />
+</Switch>
+
+const AuthedNav = () =>
+<Switch>
+<Route exact path={routes.HOME} component={Home} />
+<Route path={routes.HOMEPAGE} component={Home} />
+<Route path={routes.EXPLICIT_HOME} component={Home} />
+<Route path={routes.ABOUT} component={About} />
+<Route path={routes.SIGN_IN} component={Signin} />
+<Route path={routes.SIGN_UP} component={Signup} />
+<Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
+<Route path={routes.ACCOUNT} component={Account} />
+<Route path={routes.PORTAL} component={Portal} />
+</Switch>
+
 export default withAuthentication(App);
+
+export {UnAuthedNav,AuthedNav};
