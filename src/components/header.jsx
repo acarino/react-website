@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link,NavLink } from 'react-router-dom'
 import * as routes from '../constants/routes.jsx';
 import AuthUserContext from './authusercontext.jsx';
-import logo from '../assets/images/Crowdsurfer_Logo.jpg';
+import Logo from '../assets/images/Crowdsurfer_Logo.jpg';
 import SignInOutButton from './signinoutbutton.jsx';
 
 class Header extends Component {
@@ -11,7 +11,7 @@ class Header extends Component {
       <div className="topSection">
         <header className="App-header">
           <Link id="navHomeLogo" to={routes.HOME}                                   className="App-header-nav-link" >
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={Logo} className="App-logo" alt="logo" />
           </Link>
           <span className="App-Header-Right">
             <SignInOutButton className="App-Header-Button" />

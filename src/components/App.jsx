@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router,Route, Switch} from 'react-router-dom'
 import '../assets/styles/App.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import * as routes from '../constants/routes.jsx';
 import withAuthentication from './withauthentication.jsx';
 import AuthUserContext from './authusercontext.jsx';
@@ -36,28 +37,28 @@ class App extends Component {
 
 const UnAuthedNav = () =>
 <Switch>
-<Route exact path={routes.HOME} component={Home} />
-<Route path={routes.HOMEPAGE} component={Home} />
-<Route path={routes.EXPLICIT_HOME} component={Home} />
-<Route path={routes.ABOUT} component={About} />
-<Route path={routes.SIGN_IN} component={Signin} />
-<Route path={routes.SIGN_UP} component={Signup} />
-<Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
-<Route path={routes.ACCOUNT} component={Signin} />
-<Route path={routes.PORTAL} component={Signin} />
+  <Route exact path={routes.HOME} component={Home} />
+  <Route path={routes.HOMEPAGE} component={Home} />
+  <Route path={routes.EXPLICIT_HOME} component={Home} />
+  <Route path={routes.ABOUT} component={About} />
+  <Route path={routes.SIGN_IN} component={Signin} />
+  <Route path={routes.SIGN_UP} component={Signup} />
+  <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
+  <Route path={routes.ACCOUNT} component={Signin} />
+  <Route path={routes.PORTAL} component={Signin} />
 </Switch>
 
 const AuthedNav = () =>
 <Switch>
-<Route exact path={routes.HOME} component={Home} />
-<Route path={routes.HOMEPAGE} component={Home} />
-<Route path={routes.EXPLICIT_HOME} component={Home} />
-<Route path={routes.ABOUT} component={About} />
-<Route path={routes.SIGN_IN} component={Signin} />
-<Route path={routes.SIGN_UP} component={Signup} />
-<Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
-<Route path={routes.ACCOUNT} component={Account} />
-<Route path={routes.PORTAL} component={Portal} />
+  <Route exact path={routes.HOME} component={Home} />
+  <Route path={routes.HOMEPAGE} component={Home} />
+  <Route path={routes.EXPLICIT_HOME} component={Home} />
+  <Route path={routes.ABOUT} component={About} />
+  <Route path={routes.SIGN_IN} component={Signin} />
+  <Route path={routes.SIGN_UP} component={Signup} />
+  <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
+  <Route path={routes.ACCOUNT} component={Account} />
+  <Route path={routes.PORTAL} component={Portal} />
 </Switch>
 
 export default withAuthentication(App);
