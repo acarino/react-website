@@ -11,6 +11,7 @@ import Signin from '../pages/signin.jsx'
 import Portal from '../pages/portal.jsx'
 import Account from '../pages/account.jsx'
 import Signup from '../pages/signup.jsx'
+import Admin from '../pages/admin.jsx'
 import ForgotPassword from '../pages/forgotpassword.jsx'
 import Header from '../components/header.jsx'
 import Footer from '../components/footer.jsx'
@@ -23,7 +24,7 @@ class App extends Component {
           <Header />
             <AuthUserContext.Consumer>
               {
-                authUser => authUser
+                authUser => !!Object.values(authUser)[0]
                 ? <AuthedNav />
                 : <UnAuthedNav />
               }
@@ -46,6 +47,7 @@ const UnAuthedNav = () =>
   <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
   <Route path={routes.ACCOUNT} component={Signin} />
   <Route path={routes.PORTAL} component={Signin} />
+  <Route path={routes.ADMIN} component={Signin} />
 </Switch>
 
 const AuthedNav = () =>
@@ -59,6 +61,7 @@ const AuthedNav = () =>
   <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
   <Route path={routes.ACCOUNT} component={Account} />
   <Route path={routes.PORTAL} component={Portal} />
+  <Route path={routes.ADMIN} component={Admin} />
 </Switch>
 
 export default withAuthentication(App);

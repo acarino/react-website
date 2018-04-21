@@ -1,7 +1,7 @@
 import React, { Component }  from 'react'
 import * as routes from '../constants/routes.jsx';
 import { Link, withRouter } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import FadeIn from 'react-fade-in';
 
 const SignUp = ({history}) =>
@@ -21,6 +21,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  admin:'false',
   error: null,
 };
 
@@ -39,6 +40,7 @@ const byPropKey = (propertyName, value) => () => ({
       username,
       email,
       passwordOne,
+      admin,
     } = this.state;
 
     const {
@@ -47,8 +49,17 @@ const byPropKey = (propertyName, value) => () => ({
 
     auth.doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-        this.setState(() => ({ ...INITIAL_STATE }));
-        history.push(routes.HOME);
+
+
+        // Create a user in your own accessible Firebase Database too
+               db.doCreateUser(authUser.uid, username, email, admin)
+                 .then(() => {
+                   this.setState(() => ({ ...INITIAL_STATE }));
+                   history.push(routes.HOME);
+                 })
+                 .catch(error => {
+                   this.setState(byPropKey('error', error));
+                 });
       })
       .catch(error => {
         this.setState(byPropKey('error', error));
@@ -63,6 +74,7 @@ const byPropKey = (propertyName, value) => () => ({
             email,
             passwordOne,
             passwordTwo,
+            admin,
             error,
           } = this.state;
 
