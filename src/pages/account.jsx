@@ -1,6 +1,5 @@
 import React from 'react';
 import AuthUserContext from '../components/authusercontext.jsx';
-import { PasswordForgotForm } from './forgotpassword.jsx';
 import ChangePasswordForm from './changepassword.jsx';
 import FadeIn from 'react-fade-in';
 
@@ -10,7 +9,7 @@ const Account = () =>
   <AuthUserContext.Consumer>
     { authUser =>
       <FadeIn>
-        <h1 className="page-title">My Account: {authUser.email}</h1>
+        <h1 className="page-title">My Account:<br/> {!!Object.values(authUser)[0] ? Object.values(authUser)[0].email : ''}</h1>
         <div className="page-contents-wrapper">
           <br />
           <div className="App-Text">Reset Password</div>

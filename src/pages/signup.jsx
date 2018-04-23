@@ -1,7 +1,7 @@
 import React, { Component }  from 'react'
 import * as routes from '../constants/routes.jsx';
 import { Link, withRouter } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import FadeIn from 'react-fade-in';
 
 const SignUp = ({history}) =>
@@ -47,8 +47,18 @@ const byPropKey = (propertyName, value) => () => ({
 
     auth.doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-        this.setState(() => ({ ...INITIAL_STATE }));
-        history.push(routes.HOME);
+
+
+        // Create a user in your own accessible Firebase Database too
+        //todo:make secure.. seting admin to false by defalult
+               db.doCreateUser(authUser.uid, username, email, false)
+                 .then(() => {
+                   this.setState(() => ({ ...INITIAL_STATE }));
+                   history.push(routes.HOME);
+                 })
+                 .catch(error => {
+                   this.setState(byPropKey('error', error));
+                 });
       })
       .catch(error => {
         this.setState(byPropKey('error', error));

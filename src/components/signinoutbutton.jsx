@@ -10,7 +10,7 @@ class SignInOutButton extends Component{
    return (
       <span>
         <AuthUserContext.Consumer>
-          {authUser => authUser
+          {authUser => !!Object.values(authUser)[0]
             ? <SOButton />
             : <SIButton />
           }
