@@ -46,9 +46,7 @@ const withAuthentication = (Component) =>
 
     render() {
       const { authUser } = this.state;
-      {console.log('aaaaa',authUser)}
-      {console.log('bbbb',firebase.auth.currentUser)}
-      {console.log('my state',this.state)}
+
       return (
         <AuthUserContext.Provider value={this.state}>
           <Component authUser={authUser} />
