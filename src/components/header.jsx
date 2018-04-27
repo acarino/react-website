@@ -38,19 +38,19 @@ class Header extends Component {
             <SignInOutButton className="App-Header-Button" />
           </span>
           <div className="Nav-Bar">
-          <AuthUserContext.Consumer>
-            {authUser => !!Object.values(authUser)[0] && !!Object.values(authUser)[1]
-              ? <NavLink exact id="navAdmin" to={routes.ADMIN}
-                  className="App-header-nav-link"
-                  activeClassName="App-header-nav-link-active">Admin
-                </NavLink>
-              : ''
-            }
-            </AuthUserContext.Consumer>
             <NavLink exact id="navHome" to={routes.HOME}
               className="App-header-nav-link"
               activeClassName="App-header-nav-link-active">Home
             </NavLink>
+            <AuthUserContext.Consumer>
+              {authUser => !!Object.values(authUser)[0] && !!Object.values(authUser)[1]
+                ? <NavLink exact id="navAdmin" to={routes.ADMIN}
+                    className="App-header-nav-link"
+                    activeClassName="App-header-nav-link-active">Admin
+                  </NavLink>
+                : ''
+              }
+            </AuthUserContext.Consumer>
             <AuthUserContext.Consumer>
               {authUser => !!Object.values(authUser)[0]
                 ? <NavLink exact id="navPortal" to={routes.PORTAL}

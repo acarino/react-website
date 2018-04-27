@@ -7,7 +7,9 @@ const functions = require('firebase-functions');
   response.set('Access-Control-Allow-Origin', "*")
   response.set('Access-Control-Allow-Methods', 'GET, POST')
   response.set('Access-Control-Allow-Headers', "content-type")
-
+  console.log("got a request and logging it")
+  const requesttext = request.body.data;
+  console.log("here is the text: "+requesttext)
 const responsData =  {"data":{"myData":"Hello finally from Firebase jason!"}}
   response.send(responsData);
  });
@@ -16,6 +18,9 @@ const responsData =  {"data":{"myData":"Hello finally from Firebase jason!"}}
    response.set('Access-Control-Allow-Origin', "*")
    response.set('Access-Control-Allow-Methods', 'GET, POST')
    response.set('Access-Control-Allow-Headers', "content-type")
+   console.log("got a request and logging it")
+   const requesttext = request.text();
+   console.log("here is the text: "+requesttext)
    const responsData =  {"data":{"myData":"Hello1 finally from Firebase jason!"}}
      response.send(responsData);
  });

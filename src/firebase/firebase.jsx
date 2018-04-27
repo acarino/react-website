@@ -10,7 +10,7 @@ var config = {
   messagingSenderId: "558716558956"
 };
 //initialize default firebase app for auth and db
-if(!firebase.apps[0] || firebase.apps[0].name != "[DEFAULT]"){
+if(!firebase.apps[0] || firebase.apps[0].name !== "[DEFAULT]"){
   firebase.initializeApp(config);
 }
 const db = firebase.database();
@@ -23,7 +23,7 @@ const FUNCTIONSAPP = "FUNCTIONSAPP"
 var fbFunctions = null;
 var functions = null;
 
-if(!firebase.apps[1] || firebase.apps[1].name != FUNCTIONSAPP)
+if(!firebase.apps[1] || firebase.apps[1].name !== FUNCTIONSAPP)
 {
   fbFunctions = firebase.initializeApp(config, FUNCTIONSAPP);
   functions = fbFunctions.functions();
