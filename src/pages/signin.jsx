@@ -21,7 +21,7 @@ const SignIn = ({history}) =>
     </FadeIn>
   </div>
 
-  const byPropKey = (propertyName, value) => () => ({
+const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
 
