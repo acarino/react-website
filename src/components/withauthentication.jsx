@@ -24,8 +24,15 @@ const withAuthentication = (Component) =>
           console.log("trying for auth",authUser.uid);
           db.GetUsersRole(authUser.uid).then(snapshot =>
             {
-              console.log("the snap!",snapshot.val());
-              this.setState(() => ({ isAdmin: snapshot.val().admin }))
+              if(snapshot.val() !== null)
+              {
+                console.log("come on meow!",snapshot.val());
+                this.setState(() => ({ isAdmin: snapshot.val().admin }))
+              }
+              else{
+                console.log("user is not an admin");
+                this.setState(() => ({ isAdmin: false }))
+              }
             }
             //console.log('lets see:',snapshot.val().admin)
           ).then(this.setState(() => ({ authUser }))

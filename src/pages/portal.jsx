@@ -25,7 +25,7 @@ class Portal extends Component {
      const hiWorld =  functions.httpsCallable(str);
      //https://us-central1-crowdsurfer-2fccd.cloudfunctions.net/helloWorld
      hiWorld("test").then(response => {
-       console.log("response from NLP function: ", response.data.myData);
+       console.log("response from cloud function: ", response.data.myData);
        this.setState(() => ({ retrievedInfo: response.data.myData }))
     }).catch(function(error) {
       var code = error.code;
@@ -41,13 +41,13 @@ render() {
       <div className="App-Page">
         <FadeIn>
           <h1 className="page-title">CrowdSurfer Portal</h1>
-            <button onClick={() => this.callCloudFunction('helloWorld')}>Hello world</button>
+          <div style={{'display':'none'}}>
+          <button onClick={() => this.callCloudFunction('helloWorld')}>Hello world</button>
             <button onClick={() => this.callCloudFunction('helloWorld1')}>Hello world 1</button>
             <button onClick={() => this.callCloudFunction('helloWorld2')}>Hello world 2</button>
             <button onClick={() => this.callCloudFunction('helloWorld3')}>Hello world 3</button>
-
             <button onClick={() => this.callCloudFunction('callNLP')}>Hello world 3</button>
-
+            </div>
           <div className="page-contents-wrapper"> &nbsp;<br/>
           <div>
             <SurveyForm />

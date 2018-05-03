@@ -47,8 +47,6 @@ const byPropKey = (propertyName, value) => () => ({
 
     auth.doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-
-
         // Create a user in your own accessible Firebase Database too
         //todo:make secure.. seting admin to false by defalult
                db.doCreateUser(authUser.uid, username, email, false)

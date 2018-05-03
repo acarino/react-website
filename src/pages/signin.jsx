@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom';
 import { PasswordForgotLink } from './forgotpassword.jsx';
 import { SignUpLink } from './signup.jsx';
+import { SocialAuth } from '../components/socialsignin.jsx';
 import { auth } from '../firebase';
 import * as routes from '../constants/routes.jsx';
 import FadeIn from 'react-fade-in';
@@ -9,9 +10,13 @@ import FadeIn from 'react-fade-in';
 const SignIn = ({history}) =>
   <div className="App-Page">
     <FadeIn>
-      <h1 className="page-title">Sign in to CrowdSurfer!</h1>
+      <h1 className="page-title">Sign into CrowdSurfer With</h1>
       <div className="page-contents-wrapper">
         <div>
+          <SocialAuth history={history} />
+          <hr style={{width:"50%"}}/>
+                    <div>Or</div>
+                    <br />
           <SignInForm history={history} />
           <br/>
           <PasswordForgotLink />
@@ -39,6 +44,7 @@ class SignInForm extends Component {
   }
 
   onSubmit = (event) => {
+    const self = this;
     const {
       email,
       password,
@@ -50,11 +56,11 @@ class SignInForm extends Component {
 
     auth.doSignInWithEmailAndPassword(email, password)
       .then(() => {
-        this.setState(() => ({ ...INITIAL_STATE }));
+        self.setState(() => ({ ...INITIAL_STATE }));
         history.push(routes.PORTAL);
       })
       .catch(error => {
-        this.setState(byPropKey('error', error));
+        self.setState(byPropKey('error', error));
       });
 
     event.preventDefault();
@@ -92,12 +98,12 @@ class SignInForm extends Component {
         <button disabled={isInvalid} type="submit">
           Sign In
         </button>
-
         { error && <p className="App-Text-Error" >{error.message}</p> }
       </form>
     );
   }
 }
+
 
 export default withRouter(SignIn);
 
