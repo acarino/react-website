@@ -17,6 +17,7 @@ const withAuthentication = (Component) =>
 
     componentDidMount() {
       this.firebaseListener = firebase.auth.onAuthStateChanged(authUser => {
+        const self = this;
         console.log("auth listener",authUser);
 
         if(!!authUser)
@@ -24,24 +25,18 @@ const withAuthentication = (Component) =>
           console.log("trying for auth",authUser.uid);
           db.GetUsersRole(authUser.uid).then(snapshot =>
             {
-              if(snapshot.val() !== null)
-              {
-                console.log("come on meow!",snapshot.val());
-                this.setState(() => ({ isAdmin: snapshot.val().admin }))
-              }
-              else{
-                console.log("user is not an admin");
-                this.setState(() => ({ isAdmin: false }))
-              }
+              snapshot.val() ?
+                self.setState(() => ({ isAdmin: snapshot.val().admin }))
+                :
+                self.setState(() => ({ isAdmin: false }))
             }
             //console.log('lets see:',snapshot.val().admin)
-          ).then(this.setState(() => ({ authUser }))
+          ).then(self.setState(() => ({ authUser }))
         );
 
         }
         else {
-          console.log("no auth",authUser);
-          return this.setState(() => ({ authUser: null }));
+          return self.setState(() => ({ authUser: null }));
         }
       });
     }

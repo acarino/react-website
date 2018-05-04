@@ -19,8 +19,6 @@ class Portal extends Component {
 
    }
 
-
-
    callCloudFunction = (str) =>{
      const hiWorld =  functions.httpsCallable(str);
      //https://us-central1-crowdsurfer-2fccd.cloudfunctions.net/helloWorld

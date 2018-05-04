@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router,Route, Switch} from 'react-router-dom'
+import {BrowserRouter as Router,Route, Switch, Redirect} from 'react-router-dom'
 import '../assets/styles/App.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import * as routes from '../constants/routes.jsx';
@@ -56,7 +56,9 @@ const AuthedNav = () =>
   <Route path={routes.HOMEPAGE} component={Home} />
   <Route path={routes.EXPLICIT_HOME} component={Home} />
   <Route path={routes.ABOUT} component={About} />
-  <Route path={routes.SIGN_IN} component={Signin} />
+  <Redirect exact from={routes.SIGN_IN} to={routes.PORTAL} />
+  <Route path={routes.SIGN_IN} component={Portal} />
+  <Redirect exact from={routes.SIGN_UP} to={routes.PORTAL} />
   <Route path={routes.SIGN_UP} component={Signup} />
   <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
   <Route path={routes.ACCOUNT} component={Account} />

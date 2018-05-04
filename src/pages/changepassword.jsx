@@ -11,7 +11,6 @@ const INITIAL_STATE = {
   error: null,
 };
 
-
 class ChangePasswordForm extends Component {
   constructor(props) {
     super(props);
@@ -46,23 +45,35 @@ class ChangePasswordForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
+        <div style={{display:"none"}} >
+          <input type="email"
+            placeholder="email"
+            autoComplete="email" />
+        </div>
+        <input value={passwordOne}
+          onChange={event => this.setState(byPropKey('passwordOne', event.target.value))}
+          type="password"
+          placeholder="New Password"
+          autoComplete="new-password" />
+        <br/><br/>
         <input
           value={passwordOne}
           onChange={event => this.setState(byPropKey('passwordOne', event.target.value))}
           type="password"
           placeholder="New Password"
+          autoComplete="new-password"
         /><br/><br/>
         <input
           value={passwordTwo}
           onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
           type="password"
           placeholder="Confirm New Password"
+          autoComplete="new-password"
         />
         <br/><br/>
         <button disabled={isInvalid} type="submit">
           Reset Password
         </button>
-
         { error && <p className="App-Text-Error">{error.message}</p> }
       </form>
     );

@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom';
 import { PasswordForgotLink } from './forgotpassword.jsx';
+import AuthUserContext from '../components/authusercontext.jsx';
 import { SignUpLink } from './signup.jsx';
 import { SocialAuth } from '../components/socialsignin.jsx';
+import {Router,Route, Switch, Redirect} from 'react-router-dom'
 import { auth } from '../firebase';
 import * as routes from '../constants/routes.jsx';
 import FadeIn from 'react-fade-in';
@@ -12,16 +14,16 @@ const SignIn = ({history}) =>
     <FadeIn>
       <h1 className="page-title">Sign into CrowdSurfer With</h1>
       <div className="page-contents-wrapper">
-        <div>
-          <SocialAuth history={history} />
-          <hr style={{width:"50%"}}/>
-                    <div>Or</div>
-                    <br />
-          <SignInForm history={history} />
-          <br/>
-          <PasswordForgotLink />
-          <SignUpLink />
-        </div>
+          <div>
+              <SocialAuth history={history} />
+              <hr style={{width:"50%"}}/>
+              <div>Or</div>
+              <br />
+              <SignInForm history={history} />
+              <br/>
+              <PasswordForgotLink />
+              <SignUpLink />
+            </div>
       </div>
     </FadeIn>
   </div>
