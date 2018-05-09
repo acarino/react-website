@@ -3,8 +3,8 @@ import FadeIn from 'react-fade-in';
 import AuthUserContext from '../components/authusercontext.jsx';
 import { db } from '../firebase';
 import {connect} from 'react-redux';
-import store from "../js/store/index";
-import { addUsers } from "../js/actions/index";
+import store from "../react/store/index";
+import { addUsers } from "../react/actions/index";
 
 
 const mapStateToProps = state => {

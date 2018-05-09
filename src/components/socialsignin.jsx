@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {facebookProvider,googleProvider,twitterProvider,githubProvider,providerAuth } from '../firebase';
+import {auth,facebookProvider,googleProvider,twitterProvider,githubProvider,providerAuth,firebase } from '../firebase';
 import * as routes from '../constants/routes.jsx';
 import FacebookLoginButton from 'react-social-login-buttons/lib/buttons/FacebookLoginButton';
 import GoogleLoginButton from 'react-social-login-buttons/lib/buttons/GoogleLoginButton';
@@ -21,41 +21,70 @@ class SocialAuth extends Component {
     this.state={
       error:null,
   }
+  this.firebaseListener = null;
+  //this.addUser();
 
 }
 
 componentDidMount() {
-  //alert("here")
+
+  this.firebaseListener = firebase.auth.onAuthStateChanged(authUser => {
+  const self = this;
+  console.log("auth listener in social",authUser);
+    if(!!authUser){
+      self.checkNow("ss Mount")
+    }
+  });
+}
+
+componentWillUnmount() {
+  this.fireBaseListener && this.fireBaseListener();
+  this.authListener = undefined;
+}
+
+
+ checkNow(where)
+ {
+   console.log("userin  "+where+" : ",auth.doGetCurrentUser());
  }
 
-
-autoRun() {
+addUser() {
+  //alert("add user")
+  const self = this;
   console.log("calling social check aitmoatically");
-    providerAuth.getRedirectResult().then(function(result) {
-  if (result.credential) {
-    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-    var token = result.credential.accessToken;
-    // ...
+  providerAuth.getRedirectResult().then(function(result) {
+    console.log("after redirect",result);
+
+    var user = result.user;
+    // history.push(routes.PORTAL);
+
+    const signupData = {
+      "signup": {
+      "uid": result.user.uid,
+      "email": result.user.email,
+      "name": result.user.displayName,
+    }
   }
-  // The signed-in user info.
-console.log("after redirect",result);
-const {
-  history,
-} = this.props;
-  var user = result.user;
-  history.push(routes.PORTAL);
-}).catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // The email of the user's account used.
-  var email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  var credential = error.credential;
-  // ...
-  console.log("error after redirect",error);
-});
+
+    if(navigator.serviceWorker.controller){
+      console.log("calling post message: ", navigator.serviceWorker.controller);
+      navigator.serviceWorker.controller.postMessage(JSON.stringify(signupData));
+    }
+  }).catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+    console.log("error after redirect",error);
+    self.setState(byPropKey('error', errorMessage));
+  });
 }
+
+
    socialLogin = (org) => {
      const self = this;
      const {

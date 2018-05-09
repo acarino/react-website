@@ -25,10 +25,9 @@ const withAuthentication = (Component) =>
           console.log("trying for auth",authUser.uid);
           db.GetUsersRole(authUser.uid).then(snapshot =>
             {
-              snapshot.val() ?
-                self.setState(() => ({ isAdmin: snapshot.val().admin }))
-                :
-                self.setState(() => ({ isAdmin: false }))
+              snapshot.val()
+                ? self.setState(() => ({ isAdmin: snapshot.val().admin }))
+                : self.setState(() => ({ isAdmin: false }))
             }
             //console.log('lets see:',snapshot.val().admin)
           ).then(self.setState(() => ({ authUser }))
