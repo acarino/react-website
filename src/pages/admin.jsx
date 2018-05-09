@@ -2,14 +2,8 @@ import React, {Component} from 'react';
 import FadeIn from 'react-fade-in';
 import AuthUserContext from '../components/authusercontext.jsx';
 import { db } from '../firebase';
-import {connect} from 'react-redux';
 import store from "../react/store/index";
 import { addUsers } from "../react/actions/index";
-
-
-const mapStateToProps = state => {
-  return { users: state.users };
-};
 
 
 class AdminPage extends Component{
@@ -19,7 +13,6 @@ class AdminPage extends Component{
    this.store = store;
    this.addUsers = addUsers;
    this.state = {
-     users:null,
      currentuseruid:null,
      isAdmin:false,
    };
@@ -27,23 +20,26 @@ class AdminPage extends Component{
 
  componentDidMount() {
    const self = this;
-   console.log("the mount: ",store.getState().users);
+   this.unsubscribe = store.subscribe(this.handleChange.bind(this))
 
    if(store.getState().users.length === 0 ){
      console.log("calling user db: ",self.store.getState().users);
      db.onceGetUsers().then(snapshot => {
-       self.store.dispatch( addUsers({ users: snapshot.val(), id: 1 }) )
-       //this.setState(() => ({ users: snapshot.val() }))
-       console.log("after calling user db: ",self.store.getState());
+       self.store.dispatch( addUsers({ users: snapshot.val()}) )
      }
      );
    }
-
  }
+
+ componentWillUnmount() {
+   this.unsubscribe()
+ }
+
+ handleChange() {
+   this.forceUpdate()
+ }
+
 render() {
-  //const { users } = this.store.getState();
-
-
   return (
     <div className="App-Page">
       <FadeIn>
@@ -79,6 +75,4 @@ const UserList = ({ users }) =>
   )}
 </div>
 
-
-
-export default connect(mapStateToProps)(AdminPage);;
+export default AdminPage;
