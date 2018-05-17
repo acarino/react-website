@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link,NavLink } from 'react-router-dom'
 import * as routes from '../constants/routes.jsx';
 import AuthUserContext from './authusercontext.jsx';
-import Logo from '../assets/images/Crowdsurfer_Logo.jpg';
+import Logo from '../assets/images/Crowdsurfer_Logo1.jpg';
 import SignInOutButton from './signinoutbutton.jsx';
 import { db } from '../firebase';
 

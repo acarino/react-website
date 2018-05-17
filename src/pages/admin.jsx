@@ -69,7 +69,6 @@ const PermissionDenied = () =>
 const UserList = ({ users }) =>
 <div>
   <p>Users who have signed up:</p>
-  {console.log("this is the user list", store.getState())}
   {Object.keys(users).map(key =>
     <div key={key}>{users[key].username}</div>
   )}
