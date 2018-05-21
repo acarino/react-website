@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import FadeIn from 'react-fade-in';
 import { FadeLoader } from 'react-spinners';
+import Checkbox from '../components/checkbox.jsx'
 import { functions } from '../firebase';
 //import * as functions from 'firebase-functions'
 
@@ -71,7 +72,16 @@ const INITIAL_STATE = {
   error: null,
   loading:false,
   showForm:true,
+  initialForm:true,
 };
+
+const surveyItems = [
+  'pepperoni',
+  'pineapple',
+  'sausage',
+  'prosciutto',
+  'broccoli',
+];
 
 class SurveyForm extends Component {
   constructor(props) {
@@ -80,35 +90,72 @@ class SurveyForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+  componentWillMount = () => {
+   this.selectedCheckboxes = new Set();
+ }
+
+ toggleCheckbox = label => {
+    if (this.selectedCheckboxes.has(label)) {
+      this.selectedCheckboxes.delete(label);
+    } else {
+      this.selectedCheckboxes.add(label);
+    }
+  }
+
 
   onSubmit = (event) => {
     this.setState(() => ({ loading: true }))
     this.setState(() => ({ showForm: false }))
-    const {
-      surveyText,
-    } = this.state;
 
+      if(this.state.initialForm)
+      {
+        const {
+          surveyText,
+        } = this.state;
 
-    console.log("user input before call: "+surveyText);
+        console.log("user input before call: "+surveyText);
 
-    const getNLP =  functions.httpsCallable('callNLP');
+        const getNLP =  functions.httpsCallable('callNLP');
       //https://us-central1-crowdsurfer-2fccd.cloudfunctions.net/callNPL
-    getNLP(surveyText).then(response => {
-      console.log("got it?: ", JSON.stringify(response.data));
-      this.setState(() => ({ loading: false }))
-      this.setState(() => ({ showForm: true }))
-      this.setState(() => ({ retrievedInfo: JSON.stringify(response.data) }))
-    }).catch(function(error) {
-      var code = error.code;
-      var message = error.message;
-      var details = error.details;
-      var errorText = "error code: "+code+" message: "+message+"; details: "+details;
-      console.log(errorText);
-      this.setState(byPropKey('error', errorText));
-    });
+        getNLP(surveyText).then(response => {
+          console.log("got it?: ", JSON.stringify(response.data));
+          this.setState(() => ({ loading: false }))
+          this.setState(() => ({ showForm: true }))
+          this.setState(() => ({ retrievedInfo: JSON.stringify(response.data) }))
+          this.setState(() => ({ initialForm: false }))
+        }).catch(function(error) {
+          var code = error.code;
+          var message = error.message;
+          var details = error.details;
+          var errorText = "error code: "+code+" message: "+message+"; details: "+details;
+          console.log(errorText);
+          this.setState(byPropKey('error', errorText));
+        });
+      }
+      else{
+        var resultSet = "";
+        for (const checkbox of this.selectedCheckboxes) {
+          console.log(checkbox, 'is selected.');
+          resultSet += checkbox + " ";
+        }
+        this.setState(() => ({ survey2Answer: resultSet }))
+        this.setState(() => ({ loading: false }))
+      }
 
     event.preventDefault();
   }
+
+  createCheckbox = label => (
+  <Checkbox
+          label={label}
+          handleCheckboxChange={this.toggleCheckbox}
+          key={label}
+      />
+)
+
+createCheckboxes = () => (
+  surveyItems.map(this.createCheckbox)
+)
 
   render() {
     const {
@@ -121,8 +168,11 @@ class SurveyForm extends Component {
       surveyText === '';
 
     return (
+
+      this.state.initialForm ?
+
       <form onSubmit={this.onSubmit}>
-      <div class='LoadingSpinnerDiv'>
+      <div className='LoadingSpinnerDiv'>
         <FadeLoader
           color={'#009999'}
           loading={this.state.loading}
@@ -145,6 +195,26 @@ class SurveyForm extends Component {
           { retrievedInfo && <p className="App-Text" >{retrievedInfo}</p> }
           { error && <p className="App-Text-Error" >{error.message}</p> }
         </div>
+      </form>
+
+      :
+
+      <form onSubmit={this.onSubmit}>
+      <div className='LoadingSpinnerDiv'>
+        <FadeLoader
+          color={'#009999'}
+          loading={this.state.loading}
+        />
+        </div>
+        <div>Which of these toppings do you like best?</div>
+        <br/>
+        <div style={{textalign:'left', display: this.state.showForm ? 'block' : 'none' }}>
+             {this.createCheckboxes()}
+             <button className="btn btn-default" type="submit">Save</button>
+        </div>
+          { this.state.survey2Answer && <p className="App-Text" >You chose {this.state.survey2Answer}.  Thank you for taking the survey</p> }
+          { error && <p className="App-Text-Error" >{error.message}</p> }
+
       </form>
     );
   }
