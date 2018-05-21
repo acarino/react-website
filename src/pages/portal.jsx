@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import FadeIn from 'react-fade-in';
+import { FadeLoader } from 'react-spinners';
 import { functions } from '../firebase';
 //import * as functions from 'firebase-functions'
 
@@ -68,6 +69,8 @@ const INITIAL_STATE = {
   retrievedInfo:null,
   surveyText: '',
   error: null,
+  loading:false,
+  showForm:true,
 };
 
 class SurveyForm extends Component {
@@ -77,10 +80,14 @@ class SurveyForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+
   onSubmit = (event) => {
+    this.setState(() => ({ loading: true }))
+    this.setState(() => ({ showForm: false }))
     const {
       surveyText,
     } = this.state;
+
 
     console.log("user input before call: "+surveyText);
 
@@ -88,6 +95,8 @@ class SurveyForm extends Component {
       //https://us-central1-crowdsurfer-2fccd.cloudfunctions.net/callNPL
     getNLP(surveyText).then(response => {
       console.log("got it?: ", JSON.stringify(response.data));
+      this.setState(() => ({ loading: false }))
+      this.setState(() => ({ showForm: true }))
       this.setState(() => ({ retrievedInfo: JSON.stringify(response.data) }))
     }).catch(function(error) {
       var code = error.code;
@@ -113,21 +122,29 @@ class SurveyForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div>What is your favorite pizza topping?</div>
-        <br />
-        <input
-          value={surveyText}
-          onChange={event => this.setState(byPropKey('surveyText', event.target.value))}
-          type="text"
-          placeholder="Your Answer"
+      <div class='LoadingSpinnerDiv'>
+        <FadeLoader
+          color={'#009999'}
+          loading={this.state.loading}
         />
+        </div>
+        <div>What is your favorite pizza topping?</div>
+        <br/>
+        <div style={{display: this.state.showForm ? 'block' : 'none' }}>
+          <input
+            value={surveyText}
+            onChange={event => this.setState(byPropKey('surveyText', event.target.value))}
+            type="text"
+            placeholder="Your Answer"
+          />
 
-        <br/><br/>
-        <button disabled={isInvalid} type="submit">
-          Submit Survey
-        </button>
-        { retrievedInfo && <p className="App-Text" >{retrievedInfo}</p> }
-        { error && <p className="App-Text-Error" >{error.message}</p> }
+          <br/><br/>
+          <button disabled={isInvalid} type="submit">
+            Submit Survey
+          </button>
+          { retrievedInfo && <p className="App-Text" >{retrievedInfo}</p> }
+          { error && <p className="App-Text-Error" >{error.message}</p> }
+        </div>
       </form>
     );
   }
