@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom';
 import { PasswordForgotLink } from './forgotpassword.jsx';
-import AuthUserContext from '../components/authusercontext.jsx';
+//import AuthUserContext from '../components/authusercontext.jsx';
 import { SignUpLink } from './signup.jsx';
 import { SocialAuth } from '../components/socialsignin.jsx';
-import {Router,Route, Switch, Redirect} from 'react-router-dom'
+//import {Router,Route, Switch, Redirect} from 'react-router-dom'
 import { auth } from '../firebase';
 import * as routes from '../constants/routes.jsx';
 import FadeIn from 'react-fade-in';

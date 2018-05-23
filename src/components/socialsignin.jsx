@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {auth,facebookProvider,googleProvider,twitterProvider,githubProvider,providerAuth,firebase } from '../firebase';
-import * as routes from '../constants/routes.jsx';
+//import * as routes from '../constants/routes.jsx';
 import FacebookLoginButton from 'react-social-login-buttons/lib/buttons/FacebookLoginButton';
 import GoogleLoginButton from 'react-social-login-buttons/lib/buttons/GoogleLoginButton';
 import TwitterLoginButton from 'react-social-login-buttons/lib/buttons/TwitterLoginButton';
@@ -55,7 +55,7 @@ addUser() {
   providerAuth.getRedirectResult().then(function(result) {
     console.log("after redirect",result);
 
-    var user = result.user;
+    //var user = result.user;
     // history.push(routes.PORTAL);
 
     const signupData = {
@@ -72,12 +72,12 @@ addUser() {
     }
   }).catch(function(error) {
     // Handle Errors here.
-    var errorCode = error.code;
+    //var errorCode = error.code;
     var errorMessage = error.message;
     // The email of the user's account used.
-    var email = error.email;
+    //var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
+    //var credential = error.credential;
     // ...
     console.log("error after redirect",error);
     self.setState(byPropKey('error', errorMessage));
@@ -86,10 +86,10 @@ addUser() {
 
 
    socialLogin = (org) => {
-     const self = this;
-     const {
-       history,
-     } = this.props;
+     //const self = this;
+     //const {
+      // history,
+     //} = this.props;
      console.log("clicked social sign in for: "+ org);
      var provider = null;
 
