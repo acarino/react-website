@@ -152,7 +152,19 @@
    left: 0;
    bottom: 0;
    right: 0;
+}
 
+.Checkbox-Wrapper{
+float: left;
+position: relative;
+left: 50%;
+}
+
+.Checkbox{
+  float: left;
+  position: relative;
+  left: -50%;
+  margin-bottom: 8px;
 }
 
 .App-footer{

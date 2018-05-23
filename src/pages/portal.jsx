@@ -147,10 +147,10 @@ class SurveyForm extends Component {
 
   createCheckbox = label => (
   <Checkbox
-          label={label}
-          handleCheckboxChange={this.toggleCheckbox}
-          key={label}
-      />
+    label={label}
+    handleCheckboxChange={this.toggleCheckbox}
+    key={label}
+  />
 )
 
 createCheckboxes = () => (
@@ -206,15 +206,16 @@ createCheckboxes = () => (
           loading={this.state.loading}
         />
         </div>
-        <div>Which of these toppings do you like best?</div>
-        <br/>
-        <div style={{textalign:'left', display: this.state.showForm ? 'block' : 'none' }}>
-             {this.createCheckboxes()}
-             <button className="btn btn-default" type="submit">Save</button>
+        <div style={{width:'100%', textAlign:'center', display: this.state.showForm ? 'block' : 'none' }}>
+          <div>Which of these toppings do you like best?</div>
+          <br/>
+          <div className="Checkbox-Wrapper">
+          {this.createCheckboxes()}
+          <button className="btn btn-default" type="submit">Submit</button>
+          </div>
         </div>
           { this.state.survey2Answer && <p className="App-Text" >You chose {this.state.survey2Answer}.  Thank you for taking the survey</p> }
           { error && <p className="App-Text-Error" >{error.message}</p> }
-
       </form>
     );
   }
