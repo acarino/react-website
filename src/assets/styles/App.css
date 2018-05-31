@@ -167,6 +167,28 @@ left: 50%;
   margin-bottom: 8px;
 }
 
+.Survey-Button-Wrapper{
+float: left;
+position: relative;
+left: 50%;
+}
+
+.Survey-Button-Div{
+    width:200px;
+    background-color:#339999;
+    color:#ffffff;
+    font-weight: bold;
+    font-size: 12px;
+    font-style: normal;
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+    float: left;
+    position: relative;
+    left: -50%;
+    margin-bottom: 8px;
+}
+
 .App-footer{
   padding-left: 30px;
   background-color: #f7f7f7;

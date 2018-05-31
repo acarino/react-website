@@ -9,6 +9,7 @@ import Home from '../pages/home.jsx'
 import About from '../pages/about.jsx'
 import Signin from '../pages/signin.jsx'
 import Portal from '../pages/portal.jsx'
+import Survey from '../pages/surveyquestion.jsx'
 import Account from '../pages/account.jsx'
 import Signup from '../pages/signup.jsx'
 import Admin from '../pages/admin.jsx'
@@ -46,8 +47,9 @@ const UnAuthedNav = () =>
   <Route path={routes.SIGN_UP} component={Signup} />
   <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
   <Route path={routes.ACCOUNT} component={Signin} />
-  <Route path={routes.PORTAL} component={Signin} />
   <Route path={routes.ADMIN} component={Signin} />
+  <Route path={routes.PORTAL} component={Signin} />
+  <Route path={routes.SURVEY} component={Signin} />
 </Switch>
 
 const AuthedNav = () =>
@@ -62,8 +64,9 @@ const AuthedNav = () =>
   <Route path={routes.SIGN_UP} component={Signup} />
   <Route path={routes.PASSWORD_FORGOT} component={ForgotPassword} />
   <Route path={routes.ACCOUNT} component={Account} />
-  <Route path={routes.PORTAL} component={Portal} />
   <Route path={routes.ADMIN} component={Admin} />
+  <Route path={routes.PORTAL} component={Portal} />
+  <Route path={routes.SURVEY} component={Survey} />
 </Switch>
 
 export default withAuthentication(App);
