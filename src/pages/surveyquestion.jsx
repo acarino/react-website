@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import FadeIn from 'react-fade-in';
 import { FadeLoader } from 'react-spinners';
-import Checkbox from '../components/checkbox.jsx'
 import { functions } from '../firebase';
-//import * as functions from 'firebase-functions'
 import * as routes from '../constants/routes.jsx';
-
+import OrderList from '../components/orderlist.jsx'
 
 class Survey extends Component {
   constructor(props){
@@ -18,12 +16,9 @@ class Survey extends Component {
     };
   }
 
-  componentDidMount() {
-
-   }
-
    callCloudFunction = (str) =>{
      const hiWorld =  functions.httpsCallable(str);
+     //url example:
      //https://us-central1-crowdsurfer-2fccd.cloudfunctions.net/helloWorld
      hiWorld("test").then(response => {
        console.log("response from cloud function: ", response.data.myData);
@@ -77,32 +72,41 @@ const INITIAL_STATE = {
 };
 
 const surveyItems = [
-  'pepperoni',
-  'pineapple',
-  'sausage',
-  'prosciutto',
-  'broccoli',
+  'Pepperoni',
+  'Pineapple',
+  'Sausage',
 ];
+
+const surveyItems1 = [
+  'Prosciutto',
+  'Broccoli',
+  'Onions'
+];
+
+const surveyItems2 = [
+  'Olives',
+  'Tuna',
+  'Ham',
+];
+
+var finalItem1Order = [];
 
 class SurveyForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATE };
+    this.handleItemListChange = this.handleItemListChange.bind(this);
   }
 
-  componentWillMount = () => {
-   this.selectedCheckboxes = new Set();
- }
+handleItemListChange(orderValues) {
+  console.log("list item change in parent:", orderValues)
+  this.setState({ ["itemList"]: orderValues });
+  for(var i = 0; i<orderValues.length; i++) {
+finalItem1Order[i] = surveyItems[orderValues[i]]}
 
- toggleCheckbox = label => {
-    if (this.selectedCheckboxes.has(label)) {
-      this.selectedCheckboxes.delete(label);
-    } else {
-      this.selectedCheckboxes.add(label);
-    }
-  }
-
+console.log("this is the order of the list a top evel",finalItem1Order);
+}
 
   onSubmit = (event) => {
     this.setState(() => ({ loading: true }))
@@ -134,29 +138,13 @@ class SurveyForm extends Component {
         });
       }
       else{
-        var resultSet = "";
-        for (const checkbox of this.selectedCheckboxes) {
-          console.log(checkbox, 'is selected.');
-          resultSet += checkbox + " ";
-        }
+        var resultSet = "Bananna";
+
         this.setState(() => ({ survey2Answer: resultSet }))
         this.setState(() => ({ loading: false }))
-      }
-
+    }
     event.preventDefault();
   }
-
-  createCheckbox = label => (
-  <Checkbox
-    label={label}
-    handleCheckboxChange={this.toggleCheckbox}
-    key={label}
-  />
-)
-
-createCheckboxes = () => (
-  surveyItems.map(this.createCheckbox)
-)
 
   render() {
     const {
@@ -208,13 +196,19 @@ createCheckboxes = () => (
         />
         </div>
         <div style={{width:'100%', textAlign:'center', display: this.state.showForm ? 'block' : 'none' }}>
-          <div>Which of these toppings do you like best?</div>
+          <div>Drag these toppings into order you like best (top to bottom)?</div>
           <br/>
-          <div className="Checkbox-Wrapper">
-          {this.createCheckboxes()}
-          <button className="btn btn-default" type="submit">Submit</button>
+          <div className="demo8-outer">
+            <OrderList
+              sList={surveyItems}
+              onChange={this.handleItemListChange}
+              value={this.state["itemList"]} />
+            <br/>
+            <br/>
+            <button className="order-list-button" type="submit">Submit</button>
           </div>
         </div>
+
           { this.state.survey2Answer && <p className="App-Text" >You chose {this.state.survey2Answer}.  Thank you for taking the survey</p> }
           { error && <p className="App-Text-Error" >{error.message}</p> }
       </form>
