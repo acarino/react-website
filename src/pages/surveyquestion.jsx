@@ -96,9 +96,7 @@ var finalItemOrder = [];
 class SurveyForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = { ...INITIAL_STATE };
-
   }
 
   componentDidMount(){

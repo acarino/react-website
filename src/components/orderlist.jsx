@@ -24,10 +24,6 @@ const springConfig = [300, 40];
 var listItemsCount = 3;
 var createReactClass = require('create-react-class');
 
-function handleChange() {
-pedingChange = true;
- }
-
 const OrderList = createReactClass({
   getInitialState() {
     return {
@@ -71,7 +67,7 @@ const OrderList = createReactClass({
       const row = clamp(Math.round(mouse / 100), 0, this.listItemsCount - 1);
       const newOrder = reinsert(order, order.indexOf(lastPressed), row);
       this.setState({mouse: mouse, order: newOrder});
-      handleChange();
+      this.props.onChange(this.state.order)
     }
   },
 
@@ -85,11 +81,6 @@ const OrderList = createReactClass({
     const listItems = this.props.sList
     this.listItemsCount = listItems.length
 
-    if(pedingChange)
-    {
-      this.props.onChange(this.state.order)
-      pedingChange = false;
-    }
     return (
       <div className="demo8">
         {range(this.listItemsCount).map(i => {
