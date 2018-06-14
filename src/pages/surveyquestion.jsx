@@ -44,7 +44,7 @@ render() {
             <button onClick={() => this.callCloudFunction('helloWorld3')}>Hello world 3</button>
             <button onClick={() => this.callCloudFunction('callNLP')}>Hello world 3</button>
             </div>
-          <div className="page-contents-wrapper"> &nbsp;<br/>
+          <div className="page-contents-wrapper">
           <div>
             <SurveyForm />
           </div>
@@ -71,6 +71,8 @@ const INITIAL_STATE = {
   initialForm:true,
 };
 
+var surveysTaken = 0;
+
 const surveyItems = [
   'Pepperoni',
   'Pineapple',
@@ -89,24 +91,27 @@ const surveyItems2 = [
   'Ham',
 ];
 
-var finalItem1Order = [];
+var finalItemOrder = [];
 
 class SurveyForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATE };
-    this.handleItemListChange = this.handleItemListChange.bind(this);
+
   }
 
-handleItemListChange(orderValues) {
-  console.log("list item change in parent:", orderValues)
-  this.setState({ ["itemList"]: orderValues });
-  for(var i = 0; i<orderValues.length; i++) {
-finalItem1Order[i] = surveyItems[orderValues[i]]}
-
-console.log("this is the order of the list a top evel",finalItem1Order);
+  componentDidMount(){
+    this.handleItemListChange = this.handleItemListChange.bind(this);
+    this.survey1Input.focus();
 }
+
+handleItemListChange(orderValues) {
+  this.setState({ ["itemList"]: orderValues });
+
+  for(var i = 0; i<orderValues.length; i++) {
+    finalItemOrder[i] = surveyItems[orderValues[i]]}
+  }
 
   onSubmit = (event) => {
     this.setState(() => ({ loading: true }))
@@ -138,9 +143,15 @@ console.log("this is the order of the list a top evel",finalItem1Order);
         });
       }
       else{
-        var resultSet = "Bananna";
-
-        this.setState(() => ({ survey2Answer: resultSet }))
+        surveysTaken++;
+        if(finalItemOrder.length > 0){
+          console.log("finalItemOrder is not empty", finalItemOrder);
+          this.setState(() => ({ survey2Answer: finalItemOrder }))
+        }
+        else{
+          console.log("finalItemOrder is  empty", surveyItems);
+          this.setState(() => ({ survey2Answer: surveyItems }))
+        }
         this.setState(() => ({ loading: false }))
     }
     event.preventDefault();
@@ -171,6 +182,7 @@ console.log("this is the order of the list a top evel",finalItem1Order);
         <br/>
         <div style={{display: this.state.showForm ? 'block' : 'none' }}>
           <input
+            ref={(input) => { this.survey1Input = input; }}
             value={surveyText}
             onChange={event => this.setState(byPropKey('surveyText', event.target.value))}
             type="text"
@@ -196,7 +208,7 @@ console.log("this is the order of the list a top evel",finalItem1Order);
         />
         </div>
         <div style={{width:'100%', textAlign:'center', display: this.state.showForm ? 'block' : 'none' }}>
-          <div>Drag these toppings into order you like best (top to bottom)?</div>
+          <div>Drag these toppings into order you like best from top to bottom</div>
           <br/>
           <div className="demo8-outer">
             <OrderList

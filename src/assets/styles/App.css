@@ -1,3 +1,8 @@
+body {
+  /* Disables pull-to-refresh but allows overscroll glow effects. */
+  overscroll-behavior-y: contain;
+}
+
 .App {
   height: 100vh;
   text-align: center;
@@ -217,12 +222,11 @@ color:rgba(0,0,0,.54);
 */
 
 .demo8-outer {
-
     color: #FFF;
     position: absolute;
     width: 100%;
     height: 100%;
-    top:150px;
+    top:130px;
     font: 28px/1em "Helvetica";
     display: flex;
     justify-content: center;
@@ -232,28 +236,32 @@ color:rgba(0,0,0,.54);
     -webkit-align-items: center;
   }
   .demo8 {
-    width: 320px;
-    height: 240px;
+    width: 250px;
+    height: 200px;
   }
   .demo8-item {
     position: absolute;
-    width: 320px;
-    height: 80px;
+    width: 250px;
+    height: 70px;
     overflow: visible;
     pointer-events: auto;
     transform-origin: 50% 50% 0px;
     border-radius: 4px;
     color: rgb(153, 153, 153);
-    line-height: 80px;
+    line-height: 70px;
     padding-left: 0px;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 400;
     background-color: rgb(255, 255, 255);
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
   }
 
+  .touchCursor{
+     xcursor: url('../images/cursor.png') 39 39, auto;
+  }
+
   .order-list-button{
     position: absolute;
-    top:200px;
+    top:220px;
   }

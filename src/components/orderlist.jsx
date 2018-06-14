@@ -24,7 +24,7 @@ const springConfig = [300, 40];
 var listItemsCount = 3;
 var createReactClass = require('create-react-class');
 
-function handleChange(val) {
+function handleChange() {
 pedingChange = true;
  }
 
@@ -70,10 +70,8 @@ const OrderList = createReactClass({
       const mouse = pageY - delta;
       const row = clamp(Math.round(mouse / 100), 0, this.listItemsCount - 1);
       const newOrder = reinsert(order, order.indexOf(lastPressed), row);
-      console.log("Order State", this.state.order)
       this.setState({mouse: mouse, order: newOrder});
       handleChange();
-      console.log("Order State after", this.state.order)
     }
   },
 
@@ -86,7 +84,7 @@ const OrderList = createReactClass({
     //items passed into the compoenent from parent
     const listItems = this.props.sList
     this.listItemsCount = listItems.length
-    
+
     if(pedingChange)
     {
       this.props.onChange(this.state.order)
@@ -112,7 +110,7 @@ const OrderList = createReactClass({
                 <div
                   onMouseDown={this.handleMouseDown.bind(null, i, y)}
                   onTouchStart={this.handleTouchStart.bind(null, i, y)}
-                  className="demo8-item"
+                  className="demo8-item touchCursor"
                   style={{
                     boxShadow: `rgba(0, 0, 0, 0.2) 0px ${shadow}px ${2 * shadow}px 0px`,
                     transform: `translate3d(0, ${y}px, 0) scale(${scale})`,
