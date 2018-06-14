@@ -42,6 +42,14 @@ const OrderList = createReactClass({
     window.addEventListener('mouseup', this.handleMouseUp);
   },
 
+  componentWillUnmount() {
+    //unbind the listeners that was binded.
+    window.removeEventListener('touchmove', this.handleTouchMove, false);
+    window.removeEventListener('touchend', this.handleMouseUp, false);
+    window.removeEventListener('mousemove', this.handleMouseMove, false);
+    window.removeEventListener('mouseup', this.handleMouseUp, false);
+  },
+
   handleTouchStart(key, pressLocation, e) {
     this.handleMouseDown(key, pressLocation, e.touches[0]);
   },
