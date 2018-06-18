@@ -58,6 +58,7 @@ render() {
   }
 }
 
+//////////////////////////////////////form/////////////////
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
@@ -72,24 +73,26 @@ const INITIAL_STATE = {
 };
 
 var surveysTaken = 0;
+const totalSurveys = 3;
+var finalTotalArray = []
 
-const surveyItems = [
+const surveyItems = [[
   'Pepperoni',
   'Pineapple',
   'Sausage',
-];
-
-const surveyItems1 = [
+],
+[
   'Prosciutto',
   'Broccoli',
   'Onions'
-];
-
-const surveyItems2 = [
+],
+[
   'Olives',
   'Tuna',
   'Ham',
-];
+]
+]
+;
 
 var finalItemOrder = [];
 
@@ -97,18 +100,21 @@ class SurveyForm extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
+    this.state.itemsForDragForm = surveyItems[0];
   }
 
   componentDidMount(){
     this.handleItemListChange = this.handleItemListChange.bind(this);
     this.survey1Input.focus();
-}
+  }
 
 handleItemListChange(orderValues) {
-  this.setState({ ["itemList"]: orderValues });
-
-  for(var i = 0; i<orderValues.length; i++) {
-    finalItemOrder[i] = surveyItems[orderValues[i]]}
+//console.log("got in handle:",orderValues)
+finalItemOrder = [];
+    for(var i = 0; i<orderValues.length; i++) {
+      finalItemOrder[i] = surveyItems[surveysTaken][orderValues[i]]
+    }
+    //console.log("finalItemOrder in handle:",finalItemOrder)
   }
 
   onSubmit = (event) => {
@@ -142,14 +148,33 @@ handleItemListChange(orderValues) {
       }
       else{
         surveysTaken++;
+
         if(finalItemOrder.length > 0){
-          console.log("finalItemOrder is not empty", finalItemOrder);
-          this.setState(() => ({ survey2Answer: finalItemOrder }))
+          console.log("finalItemOrder is not empty- survey:"+surveysTaken, finalItemOrder);
+          finalTotalArray[surveysTaken] = finalItemOrder;
+          console.log("saved state:",finalTotalArray[surveysTaken])
+          finalItemOrder = [];
         }
         else{
-          console.log("finalItemOrder is  empty", surveyItems);
-          this.setState(() => ({ survey2Answer: surveyItems }))
+          console.log("finalItemOrder is  empty", surveyItems[surveysTaken-1]);
+          finalTotalArray[surveysTaken] = surveyItems[surveysTaken-1];
         }
+        console.log("surveysTaken",surveysTaken)
+        console.log("totalSurveys",totalSurveys)
+        if (surveysTaken === 1 || surveysTaken === 2) {
+          //set next survey
+          console.log("setting sList to:",surveyItems[surveysTaken])
+          this.setState(() => ({ itemsForDragForm: surveyItems[surveysTaken] }))
+          this.setState(() => ({ loading: false }))
+          this.setState(() => ({ showForm: true }))
+        }
+        else {
+          //done with survey
+          const finalString = finalTotalArray[1]+" and "+finalTotalArray[2]+" and "+finalTotalArray[3];
+          this.setState(() => ({ survey2Answer: finalString }))
+          console.log("final state",this.state)
+          surveysTaken = 0;
+      }
         this.setState(() => ({ loading: false }))
     }
     event.preventDefault();
@@ -208,18 +233,19 @@ handleItemListChange(orderValues) {
         <div style={{width:'100%', textAlign:'center', display: this.state.showForm ? 'block' : 'none' }}>
           <div>Drag these toppings into order you like best from top to bottom</div>
           <br/>
-          <div className="demo8-outer">
+          <div className="drag-list-outer">
             <OrderList
-              sList={surveyItems}
+              ref={(list) => { this.orderListRef = list; }}
+              sList={this.state.itemsForDragForm}
               onChange={this.handleItemListChange}
-              value={this.state["itemList"]} />
+             />
             <br/>
             <br/>
             <button className="order-list-button" type="submit">Submit</button>
           </div>
         </div>
 
-          { this.state.survey2Answer && <p className="App-Text" >You chose {this.state.survey2Answer}.  Thank you for taking the survey</p> }
+          {this.state.survey2Answer && <p className="App-Text" >You chose {this.state.survey2Answer}.  <br/>Thank you for taking the survey</p> }
           { error && <p className="App-Text-Error" >{error.message}</p> }
       </form>
     );

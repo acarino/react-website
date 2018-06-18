@@ -50,6 +50,12 @@ const OrderList = createReactClass({
     window.removeEventListener('mouseup', this.handleMouseUp, false);
   },
 
+  componentWillReceiveProps(props){
+    console.log("got props update!",props)
+    console.log("update and heres state",this.state)
+    this.setState(() => ({ order: [0,1,2] }))
+  },
+
   handleTouchStart(key, pressLocation, e) {
     this.handleMouseDown(key, pressLocation, e.touches[0]);
   },
@@ -90,7 +96,7 @@ const OrderList = createReactClass({
     this.listItemsCount = listItems.length
 
     return (
-      <div className="demo8">
+      <div className="drag-list-wrapper">
         {range(this.listItemsCount).map(i => {
           const style = lastPressed === i && isPressed
             ? {
@@ -109,7 +115,7 @@ const OrderList = createReactClass({
                 <div
                   onMouseDown={this.handleMouseDown.bind(null, i, y)}
                   onTouchStart={this.handleTouchStart.bind(null, i, y)}
-                  className="demo8-item touchCursor"
+                  className="drag-list-item touchCursor"
                   style={{
                     boxShadow: `rgba(0, 0, 0, 0.2) 0px ${shadow}px ${2 * shadow}px 0px`,
                     transform: `translate3d(0, ${y}px, 0) scale(${scale})`,

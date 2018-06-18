@@ -221,7 +221,7 @@ color:rgba(0,0,0,.54);
 }
 */
 
-.demo8-outer {
+.drag-list-outer {
     color: #FFF;
     position: absolute;
     width: 100%;
@@ -235,11 +235,11 @@ color:rgba(0,0,0,.54);
     -webkit-justify-content: center;
     -webkit-align-items: center;
   }
-  .demo8 {
+  .drag-list-wrapper {
     width: 250px;
     height: 200px;
   }
-  .demo8-item {
+  .drag-list-item {
     position: absolute;
     width: 250px;
     height: 70px;
