@@ -57,13 +57,6 @@ class ChangePasswordForm extends Component {
           autoComplete="new-password" />
         <br/><br/>
         <input
-          value={passwordOne}
-          onChange={event => this.setState(byPropKey('passwordOne', event.target.value))}
-          type="password"
-          placeholder="New Password"
-          autoComplete="new-password"
-        /><br/><br/>
-        <input
           value={passwordTwo}
           onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
           type="password"
