@@ -15,9 +15,15 @@ const client = new language.LanguageServiceClient();
 const setCors = (res) => {
   if(res)
   {
+    console.log("set cors!");
     res.set('Access-Control-Allow-Origin', "*")
-    res.set('Access-Control-Allow-Methods', 'GET, POST')
-    res.set('Access-Control-Allow-Headers', "content-type")
+    res.set('Access-Control-Allow-Methods', 'GET, PUT, POST')
+    res.set('Access-Control-Allow-Headers', "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, firebase-instance-id-token")    
+  }
+  else {
+    {
+      console.log("didn't set cors!")
+    }
   }
     return res;
   }
@@ -160,10 +166,10 @@ client
 exports.callNLP = functions.https.onRequest((request, response) => {
    setCors(response);
    console.log("got a request and logging it")
-   const requesttext = request.body.data;
-   console.log("here is the text: "+requesttext)
+   const requestText = request.body.data ? request.body.data : "sushi";
+   console.log("here is the text: "+requestText)
 // The text to analyze
-const text = requesttext;
+const text = requestText;
 let nlpReturnText = "";
 
 const document = {
