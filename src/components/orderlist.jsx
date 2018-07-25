@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import FadeIn from 'react-fade-in';
 import { FadeLoader } from 'react-spinners';
 import { functions } from '../firebase';
 import * as routes from '../constants/routes.jsx';

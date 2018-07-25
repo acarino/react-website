@@ -59,8 +59,7 @@ class SignInForm extends Component {
       .then(() => {
         self.setState(() => ({ ...INITIAL_STATE }));
         history.push(routes.PORTAL);
-      })
-      .catch(error => {
+      }).catch(error => {
         self.setState(byPropKey('error', error));
       });
 

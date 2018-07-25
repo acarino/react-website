@@ -9,6 +9,7 @@ if(!firebase.apps[0] || firebase.apps[0].name !== "[DEFAULT]"){
 }
 const db = firebase.database();
 const auth = firebase.auth();
+const push = firebase.messaging();
 
 //social sign in items
 const providerAuth = firebase.auth();
@@ -35,6 +36,7 @@ if(!firebase.apps[1] || firebase.apps[1].name !== FUNCTIONSAPP)
 export {
   db,
   auth,
+  push,
   functions,
   facebookProvider,
   googleProvider,

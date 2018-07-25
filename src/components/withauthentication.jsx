@@ -1,13 +1,13 @@
 import React from 'react';
-
 import AuthUserContext from '../components/authusercontext.jsx';
-import { firebase, db } from '../firebase';
+import { firebase, db,push } from '../firebase';
 
 const withAuthentication = (Component) =>
   class WithAuthentication extends React.Component {
     constructor(props) {
       super(props);
       this.firebaseListener = null;
+      this.pushListener = null;
 
       this.state = {
         authUser: null,
@@ -19,7 +19,6 @@ const withAuthentication = (Component) =>
       this.firebaseListener = firebase.auth.onAuthStateChanged(authUser => {
         const self = this;
         console.log("auth listener",authUser);
-
         if(!!authUser)
         {
           console.log("trying for auth",authUser.uid);
@@ -31,17 +30,38 @@ const withAuthentication = (Component) =>
             }
             //console.log('lets see:',snapshot.val().admin)
           ).then(self.setState(() => ({ authUser }))
-        );
+        ).then(() => {
+          push.requestPermission()
+            .then(() => push.getToken())
+            .then((token) => {
+              console.log("push token:",token);
+            }).catch(e => {
+              console.error();
+              console.log("error in push reg:",e)
+            });
+      });
 
         }
         else {
           return self.setState(() => ({ authUser: null }));
         }
       });
+
+      this.pushListener = push.onTokenRefresh(function () {
+        this.push.getToken().then(function (refreshedToken) {
+        console.log('Token refreshed.');
+        })
+        .catch(function (err) {
+      console.log('Unable to retrieve refreshed token ', err);
+    });
+});
+
+
     }
 
     componentWillUnmount() {
-      this.fireBaseListener && this.fireBaseListener();
+      this.firebaseListener = undefined
+      this.pushListener = undefined
       this.authListener = undefined;
 }
 

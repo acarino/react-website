@@ -1,3 +1,12 @@
+/*if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../firebase-messaging-sw.js')
+  .then(function(registration) {
+    console.log('Registration successful, scope is:', registration.scope);
+  }).catch(function(err) {
+    console.log('Service worker registration failed, error:', err);
+  });
+}
+*/
 //importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
 
 
@@ -30,7 +39,6 @@ I.prototype.getToken=function(){var a=this,b=Notification.permission;return"gran
 I.prototype.deleteToken=I.prototype.deleteToken;I.prototype.f=function(){throw this.a.create("should-be-overriden");};I.prototype.requestPermission=function(){throw this.a.create("only-available-in-window");};I.prototype.useServiceWorker=function(){throw this.a.create("only-available-in-window");};I.prototype.useServiceWorker=I.prototype.useServiceWorker;I.prototype.onMessage=function(){throw this.a.create("only-available-in-window");};I.prototype.onMessage=I.prototype.onMessage;
 I.prototype.onTokenRefresh=function(){throw this.a.create("only-available-in-window");};I.prototype.onTokenRefresh=I.prototype.onTokenRefresh;I.prototype.setBackgroundMessageHandler=function(){throw this.a.create("only-available-in-sw");};I.prototype.setBackgroundMessageHandler=I.prototype.setBackgroundMessageHandler;I.prototype.delete=function(){D(this.c)};var J=function(a,b){var c={};return c["firebase-messaging-msg-type"]=a,c["firebase-messaging-msg-data"]=b,c};var K=self,P=function(a){I.call(this,a);var b=this;this.a=new firebase.INTERNAL.ErrorFactory("messaging","Messaging",x);K.addEventListener("push",function(a){return L(b,a)},!1);K.addEventListener("pushsubscriptionchange",function(a){return N(b,a)},!1);
 //K.addEventListener("notificationclick",function(a){return O(b,a)},!1);
-
 this.b=null};f(P,I);
 var L=function(a,b){var c;try{c=b.data.json()}catch(e){return}var d=Q().then(function(b){if(b){if(c.notification||a.b)return R(a,c)}else{if((b=c)&&"object"===typeof b.notification){var d=Object.assign({},b.notification),e={};d.data=(e.FCM_MSG=b,e);b=d}else b=void 0;if(b)return K.registration.showNotification(b.title||"",b);if(a.b)return a.b(c)}});b.waitUntil(d)},N=function(a,b){var c=a.getToken().then(function(b){if(!b)throw a.a.create("no-fcm-token-for-resubscribe");var c=a.c;return E(c,b).then(function(b){if(!b)throw a.a.create("invalid-saved-token");
 return K.registration.pushManager.subscribe(y).then(function(a){return G(b.A,a,b.w)}).catch(function(d){return c.deleteToken(b.B).then(function(){throw a.a.create("unable-to-resubscribe",{message:d});})})})});b.waitUntil(c)},O=function(a,b){if(b.notification&&b.notification.data&&b.notification.data.FCM_MSG){b.stopImmediatePropagation();b.notification.close();var c=b.notification.data.FCM_MSG,d=c.notification.click_action;if(d){var e=S(d).then(function(a){return a?a:K.clients.openWindow(d)}).then(function(b){if(b)return delete c.notification,
@@ -41,15 +49,9 @@ V.prototype.getToken=function(){var a=this;return"serviceWorker"in navigator&&"P
 var W=function(a){if(a.g)return a.g;var b=document.querySelector('link[rel="manifest"]');b?a.g=fetch(b.href).then(function(a){return a.json()}).catch(function(){return Promise.resolve()}).then(function(b){if(b&&b.gcm_sender_id&&"103953800507"!==b.gcm_sender_id)throw a.a.create("incorrect-gcm-sender-id");}):a.g=Promise.resolve();return a.g};
 V.prototype.requestPermission=function(){var a=this;return"granted"===Notification.permission?Promise.resolve():new Promise(function(b,c){var d=function(d){return"granted"===d?b():"denied"===d?c(a.a.create("permission-blocked")):c(a.a.create("permission-default"))},e=Notification.requestPermission(function(a){e||d(a)});e&&e.then(d)})};V.prototype.requestPermission=V.prototype.requestPermission;
 V.prototype.useServiceWorker=function(a){if(!(a instanceof ServiceWorkerRegistration))throw this.a.create("sw-registration-expected");if("undefined"!==typeof this.b)throw this.a.create("use-sw-before-get-token");this.b=a};V.prototype.useServiceWorker=V.prototype.useServiceWorker;V.prototype.onMessage=function(a,b,c){return this.m(a,b,c)};V.prototype.onMessage=V.prototype.onMessage;V.prototype.onTokenRefresh=function(a,b,c){return this.o(a,b,c)};V.prototype.onTokenRefresh=V.prototype.onTokenRefresh;
-var X=function(a,b){var c=b.installing||b.waiting||b.active;return new Promise(function(d,e){if(c)if("activated"===c.state)d(b);else if("redundant"===c.state)e(a.a.create("sw-reg-redundant"));else{var n=function(){if("activated"===c.state)d(b);else if("redundant"===c.state)e(a.a.create("sw-reg-redundant"));else return;
-c.removeEventListener("statechange",n)};
-c.addEventListener("statechange",n)}else e(a.a.create("no-sw-in-reg"))})};
+var X=function(a,b){var c=b.installing||b.waiting||b.active;return new Promise(function(d,e){if(c)if("activated"===c.state)d(b);else if("redundant"===c.state)e(a.a.create("sw-reg-redundant"));else{var n=function(){if("activated"===c.state)d(b);else if("redundant"===c.state)e(a.a.create("sw-reg-redundant"));else return;c.removeEventListener("statechange",n)};c.addEventListener("statechange",n)}else e(a.a.create("no-sw-in-reg"))})};
 V.prototype.f=function(){var a=this;if(this.b)return X(this,this.b);this.b=null;return navigator.serviceWorker.register("/firebase-messaging-sw.js",{scope:"."}).catch(function(b){throw a.a.create("failed-serviceworker-registration",{browserErrorMessage:b.message});}).then(function(b){return X(a,b).then(function(){a.b=b;b.update();return b})})};
-
 var U=function(a){"serviceWorker"in navigator&&navigator.serviceWorker.addEventListener("message",function(b){if(b.data&&b.data["firebase-messaging-msg-type"])switch(b=b.data,b["firebase-messaging-msg-type"]){case "push-msg-received":case "notification-clicked":a.j.next(b["firebase-messaging-msg-data"])}},!1)};if(!(firebase&&firebase.INTERNAL&&firebase.INTERNAL.registerService))throw Error("Cannot install Firebase Messaging - be sure to load firebase-app.js first.");firebase.INTERNAL.registerService("messaging",function(a){return self&&"ServiceWorkerGlobalScope"in self?new P(a):new V(a)},{Messaging:V});new firebase.INTERNAL.ErrorFactory("messaging","Messaging",x);new firebase.INTERNAL.ErrorFactory("messaging","Messaging",x);new firebase.INTERNAL.ErrorFactory("messaging","Messaging",x);}).call(this);
-
-
-console.log("before serviceworker addEventListener");
 
 const config = {
   apiKey: "AIzaSyCDWJ8C32UTmCUEA5On9LAc6Q3Q-_UUnms",
@@ -59,62 +61,84 @@ const config = {
   storageBucket: "crowdsurfer-2fccd.appspot.com",
   messagingSenderId: "558716558956"
 };
-
+console.log("before firebase-sw addEventListener - activate")
 self.addEventListener('activate', function(event) {
-  console.log("in activate listenern in main-sw ", event);
+  console.log("in activate listenern in firebase-sw ", event);
 event.waitUntil(self.clients.claim());
 });
 
+/*
+
+console.log("before firebase-sw addEventListener - click")
 self.addEventListener("notificationclick", function(event) {
-    console.log("in serviceworker addEventListener",event)
-    console.log('On notification click1: ', event.notification);
+console.log("in firebase-sw addEventListener",event)
+var sAction = "";
+const notificationData = event.notification.data.FCM_MSG.data;
+console.log('');
+console.log('The data notification had the following parameters:');
+Object.keys(notificationData).forEach((key) => {
+  console.log("  ${key}: ", notificationData[key]);
+  sAction = notificationData[key];
+});
+console.log('sAction',sAction);
 
-    var mymessage = {
 
-    	type: "notification",
-    	msg: "received notification from service worker post",
-    	title: event.notification.title,
-    	body: event.notification.body
+   var mymessage = {
+     type: 'notification',
+     msg: 'received notification from service worker post',
+     title: event.notification.title,
+     body: event.notification.body,
+     data: event.notification.data,
+     action: sAction
+   };
+var url = "1"
+if(sAction === "survey2")
+{
+  url = "2"
+}
 
-    }
+console.log("url: " + url)
 
-    // close the notification
-    event.notification.close();
+   event.notification.close();
 
-    //To open the app after click notification
-    event.waitUntil(
-        clients.matchAll({includeUncontrolled: true, type: 'window'})
-        .then(function(clientList) {
+   event.waitUntil(
+       clients.matchAll({includeUncontrolled: true, type: 'window'})
+       .then(function(clientList) {
+         console.log('client list length in firebase-sw: '+ clientList.length);
+          for (var i = 0; i < clientList.length; i++) {
+               var client = clientList[i];
+               console.log("main firebase-sw:",client);
+               console.log("message", mymessage);
+               console.log("client", client);
 
-        	console.log('client list length in sw: '+ clientList.length);
-            for (var i = 0; i < clientList.length; i++) {
-                var client = clientList[i];
+               client.postMessage(mymessage);
+               client.navigate("/index.html");
 
-                console.log("main SW:",client);
+               if ('focus' in client) {
+                   return client.focus();
+               }
+           }
 
-                client.postMessage(mymessage);
-                client.navigate("/index.html")
-
-                if ("focus" in client) {
-                    return client.focus();
-                }
-            }
-
-            if (clientList.length === 0) {
-                if (clients.openWindow) {
-                    return clients.openWindow('/');
-                }
-            }
-        })
-    );
+           if (clientList.length === 0) {
+               if (clients.openWindow) {
+                   return clients.openWindow('/');
+               }
+           }
+       })
+   );
 });
 
-self.addEventListener('notificationclose', function(e) {
-  var notification = e.notification;
-  var primaryKey = notification.data.primaryKey;
+*/
 
-  console.log('Closed notification: ' + primaryKey);
+self.addEventListener("notificationclose", function(e) {
+ var notification = e.notification;
+ var primaryKey = notification.data.primaryKey;
+
+ console.log("Closed notification: " + primaryKey);
 });
+
+
+
 
 firebase.initializeApp(config);
 
@@ -124,45 +148,24 @@ function setListener(){
     for (var i = 0; i < clientList.length; i++) {
       var client = clientList[i];
       console.log("in setListener client length: "+clientList.length);
-      client.addEventListener('message', function(messageEvent) {
-      console.log('in setListener got event in sw:', messageEvent);
+      client.addEventListener("message", function(messageEvent) {
+      console.log("in setListener got event in sw:", messageEvent);
       });
     }
   })
 }
 
-console.log('11111111 in sw:', firebase);
 
-// Retrieve an instance of Firebase Messaging so that it can handle background messages.
-var messaging = firebase.messaging();
+const messaging = firebase.messaging();
 
-console.log('yyyyyyyxxxxxxx in sw:', messaging);
-
-
-// If you would like to customize notifications that are received in the background (Web app is closed or not in browser focus) then you should implement this optional method
 messaging.setBackgroundMessageHandler(function (payload) {
-  console.log('[sw.js] Received background message ', payload);
+  console.log("[sw.js] Received background message ", payload);
   // Customize notification here
-  var notificationTitle = 'Background Message Title';
+  var notificationTitle = "Background Message Title";
   var notificationOptions = {
-    body: 'Background Message body.'
-
+    body: "Background Message body."
   };
 
   return self.registration.showNotification(notificationTitle,
     notificationOptions);
-});
-
-self.addEventListener('message', function(e) {
-  console.log('in e: ', e.data);
-  const userData = JSON.parse(e.data);
-    if(userData.signup.uid){
-      console.log('post message parsed name json: ' + userData.signup.uid);
-    }
-    if(userData.signup.email){
-      console.log('post message parsed email json: ' + userData.signup.email);
-    }
-    if(userData.signup.name){
-      console.log('post message parsed name json: ' + userData.signup.name);
-    }
 });

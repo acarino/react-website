@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import FadeIn from 'react-fade-in';
 import { FadeLoader } from 'react-spinners';
 import { functions } from '../firebase';
-import * as routes from '../constants/routes.jsx';
 import OrderList from '../components/orderlist.jsx'
 
 class Survey extends Component {
@@ -118,6 +117,7 @@ finalItemOrder = [];
   }
 
   onSubmit = (event) => {
+    const thisRef = this;
     this.setState(() => ({ loading: true }))
     this.setState(() => ({ showForm: false }))
 
@@ -142,8 +142,11 @@ finalItemOrder = [];
           var message = error.message;
           var details = error.details;
           var errorText = "error code: "+code+" message: "+message+"; details: "+details;
-          console.log(errorText);
-          this.setState(byPropKey('error', errorText));
+          console.log(errorText, error);
+          thisRef.setState(() => ({ error: errorText}));
+          thisRef.setState(() => ({ loading: false }))
+          thisRef.setState(() => ({ showForm: true }))
+          thisRef.setState(() => ({ initialForm: true }))
         });
       }
       else{
@@ -211,13 +214,13 @@ finalItemOrder = [];
             type="text"
             placeholder="Your Answer"
           />
-
           <br/><br/>
           <button disabled={isInvalid} type="submit">
             Submit Survey
           </button>
           { retrievedInfo && <p className="App-Text" >{retrievedInfo}</p> }
-          { error && <p className="App-Text-Error" >{error.message}</p> }
+          { console.log("error is",error) }
+          { error && <p className="App-Text-Error" >{error}</p> }
         </div>
       </form>
 
