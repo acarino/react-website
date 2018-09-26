@@ -265,3 +265,9 @@ color:rgba(0,0,0,.54);
     position: absolute;
     top:220px;
   }
+
+  .contactImg{
+     object-fit: cover;
+     width: 150px;
+     height: 160px;
+  }

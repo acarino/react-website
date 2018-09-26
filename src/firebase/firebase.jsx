@@ -1,6 +1,10 @@
-import * as firebase from 'firebase';
+import firebase from '@firebase/app';
 import '@firebase/functions'
 import {config} from './firebasekey.jsx'
+import '@firebase/auth';
+import '@firebase/database';
+import '@firebase/messaging';
+
 
 
 //initialize default firebase app for auth and db
