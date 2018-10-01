@@ -15,6 +15,8 @@ class Survey extends Component {
     };
   }
 
+/////////// unused function for testing purposes //////
+/*
    callCloudFunction = (str) =>{
      const hiWorld =  functions.httpsCallable(str);
      //url example:
@@ -29,20 +31,21 @@ class Survey extends Component {
       console.log("error code: "+code+" message: "+message+" details: "+details)
     });
   }
-
+*/
 render() {
 
   return(
       <div className="App-Page">
         <FadeIn>
           <h1 className="page-title">CrowdSurfer Survey</h1>
-          <div style={{'display':'none'}}>
+          {/* ////////  unused buttons for testing purposes /////// */}
+          {/* <div>
           <button onClick={() => this.callCloudFunction('helloWorld')}>Hello world</button>
             <button onClick={() => this.callCloudFunction('helloWorld1')}>Hello world 1</button>
             <button onClick={() => this.callCloudFunction('helloWorld2')}>Hello world 2</button>
             <button onClick={() => this.callCloudFunction('helloWorld3')}>Hello world 3</button>
             <button onClick={() => this.callCloudFunction('callNLP')}>Hello world 3</button>
-            </div>
+            </div> */}
           <div className="page-contents-wrapper">
           <div>
             <SurveyForm />
@@ -75,25 +78,79 @@ var surveysTaken = 0;
 const totalSurveys = 3;
 var finalTotalArray = []
 
-const surveyItems = [[
-  'Pepperoni',
-  'Pineapple',
-  'Sausage',
-],
-[
-  'Prosciutto',
-  'Broccoli',
-  'Onions'
-],
-[
-  'Olives',
-  'Tuna',
-  'Ham',
-]
-]
-;
+const surveyQuestion = 'What is your favorite pizza topping?';
+const surveyListInstructions = 'Drag these toppings into order you like best from top to bottom';
+
+const surveyItems = [
+[   'Pepperoni',
+    'Pineapple',
+    'Sausage',
+  ],
+  [
+    'Prosciutto',
+    'Broccoli',
+    'Onions'
+  ],
+  [
+    'Olives',
+    'Tuna',
+    'Ham',
+  ]
+];
 
 var finalItemOrder = [];
+
+function callNLPService(tRef){
+const thisRef = tRef;
+const {
+  surveyText,
+} = thisRef.state;
+
+console.log("user input before call: "+surveyText);
+
+const getNLP =  functions.httpsCallable('callNLP');
+//https://us-central1-crowdsurfer-2fccd.cloudfunctions.net/callNPL
+getNLP(surveyText).then(response => {
+  console.log("got it?: ", JSON.stringify(response.data));
+  thisRef.setState(() => ({ loading: false, showForm: true, retrievedInfo: JSON.stringify(response.data), initialForm: false }))
+  }).catch(function(error) {
+    var errorText = "error code: "+error.code+" message: "+error.message+"; details: "+error.details;
+    console.log(errorText, error);
+    thisRef.setState(() => ({ error: errorText, loading: false, showForm: true, initialForm: true}));
+  });
+}
+
+function processSurveyResult(thisRef){
+surveysTaken++;
+
+if(finalItemOrder.length > 0){
+  console.log("finalItemOrder is not empty- survey:"+surveysTaken, finalItemOrder);
+  finalTotalArray[surveysTaken] = finalItemOrder;
+  console.log("saved state:",finalTotalArray[surveysTaken])
+  finalItemOrder = [];
+}
+else{
+  console.log("finalItemOrder is  empty", surveyItems[surveysTaken-1]);
+  finalTotalArray[surveysTaken] = surveyItems[surveysTaken-1];
+}
+console.log("surveysTaken",surveysTaken)
+console.log("totalSurveys",totalSurveys)
+if (surveysTaken === 1 || surveysTaken === 2) {
+  //set next survey
+  console.log("setting sList to:",surveyItems[surveysTaken])
+  thisRef.setState(() => ({ itemsForDragForm: surveyItems[surveysTaken], loading: false, showForm: true }))
+}
+else {
+  //done with survey
+  const finalString = finalTotalArray[1]+" and "+finalTotalArray[2]+" and "+finalTotalArray[3];
+  thisRef.setState(() => ({ survey2Answer: finalString }))
+  console.log("final state",thisRef.state)
+  surveysTaken = 0;
+}
+thisRef.setState(() => ({ loading: false }))
+}
+
+////////////////  Survey Form class ////////////
 
 class SurveyForm extends Component {
   constructor(props) {
@@ -109,77 +166,20 @@ class SurveyForm extends Component {
 
 handleItemListChange(orderValues) {
 //console.log("got in handle:",orderValues)
-finalItemOrder = [];
-    for(var i = 0; i<orderValues.length; i++) {
-      finalItemOrder[i] = surveyItems[surveysTaken][orderValues[i]]
-    }
-    //console.log("finalItemOrder in handle:",finalItemOrder)
+let finalItemOrder = [];
+
+  for(var i = 0; i<orderValues.length; i++) {
+    finalItemOrder[i] = surveyItems[surveysTaken][orderValues[i]]
   }
+    //console.log("finalItemOrder in handle:",finalItemOrder)
+}
 
   onSubmit = (event) => {
     const thisRef = this;
-    this.setState(() => ({ loading: true }))
-    this.setState(() => ({ showForm: false }))
+    this.setState(() => ({ loading: true, showForm: false }))
 
-      if(this.state.initialForm)
-      {
-        const {
-          surveyText,
-        } = this.state;
+    this.state.initialForm ? callNLPService(thisRef) : processSurveyResult(thisRef);
 
-        console.log("user input before call: "+surveyText);
-
-        const getNLP =  functions.httpsCallable('callNLP');
-      //https://us-central1-crowdsurfer-2fccd.cloudfunctions.net/callNPL
-        getNLP(surveyText).then(response => {
-          console.log("got it?: ", JSON.stringify(response.data));
-          this.setState(() => ({ loading: false }))
-          this.setState(() => ({ showForm: true }))
-          this.setState(() => ({ retrievedInfo: JSON.stringify(response.data) }))
-          this.setState(() => ({ initialForm: false }))
-        }).catch(function(error) {
-          var code = error.code;
-          var message = error.message;
-          var details = error.details;
-          var errorText = "error code: "+code+" message: "+message+"; details: "+details;
-          console.log(errorText, error);
-          thisRef.setState(() => ({ error: errorText}));
-          thisRef.setState(() => ({ loading: false }))
-          thisRef.setState(() => ({ showForm: true }))
-          thisRef.setState(() => ({ initialForm: true }))
-        });
-      }
-      else{
-        surveysTaken++;
-
-        if(finalItemOrder.length > 0){
-          console.log("finalItemOrder is not empty- survey:"+surveysTaken, finalItemOrder);
-          finalTotalArray[surveysTaken] = finalItemOrder;
-          console.log("saved state:",finalTotalArray[surveysTaken])
-          finalItemOrder = [];
-        }
-        else{
-          console.log("finalItemOrder is  empty", surveyItems[surveysTaken-1]);
-          finalTotalArray[surveysTaken] = surveyItems[surveysTaken-1];
-        }
-        console.log("surveysTaken",surveysTaken)
-        console.log("totalSurveys",totalSurveys)
-        if (surveysTaken === 1 || surveysTaken === 2) {
-          //set next survey
-          console.log("setting sList to:",surveyItems[surveysTaken])
-          this.setState(() => ({ itemsForDragForm: surveyItems[surveysTaken] }))
-          this.setState(() => ({ loading: false }))
-          this.setState(() => ({ showForm: true }))
-        }
-        else {
-          //done with survey
-          const finalString = finalTotalArray[1]+" and "+finalTotalArray[2]+" and "+finalTotalArray[3];
-          this.setState(() => ({ survey2Answer: finalString }))
-          console.log("final state",this.state)
-          surveysTaken = 0;
-      }
-        this.setState(() => ({ loading: false }))
-    }
     event.preventDefault();
   }
 
@@ -204,7 +204,7 @@ finalItemOrder = [];
           loading={this.state.loading}
         />
         </div>
-        <div>What is your favorite pizza topping?</div>
+        <div>{surveyQuestion}</div>
         <br/>
         <div style={{display: this.state.showForm ? 'block' : 'none' }}>
           <input
@@ -234,7 +234,7 @@ finalItemOrder = [];
         />
         </div>
         <div style={{width:'100%', textAlign:'center', display: this.state.showForm ? 'block' : 'none' }}>
-          <div>Drag these toppings into order you like best from top to bottom</div>
+          <div>{surveyListInstructions}</div>
           <br/>
           <div className="drag-list-outer">
             <OrderList
@@ -256,7 +256,6 @@ finalItemOrder = [];
 }
 
 export default Survey
-
 export {
   SurveyForm,
 }
