@@ -98,7 +98,7 @@ const surveyItems = [
   ]
 ];
 
-var finalItemOrder = [];
+let finalItemOrder = [];
 
 function callNLPService(tRef){
 const thisRef = tRef;
@@ -123,30 +123,30 @@ getNLP(surveyText).then(response => {
 function processSurveyResult(thisRef){
 surveysTaken++;
 
-if(finalItemOrder.length > 0){
-  console.log("finalItemOrder is not empty- survey:"+surveysTaken, finalItemOrder);
-  finalTotalArray[surveysTaken] = finalItemOrder;
-  console.log("saved state:",finalTotalArray[surveysTaken])
-  finalItemOrder = [];
-}
-else{
-  console.log("finalItemOrder is  empty", surveyItems[surveysTaken-1]);
-  finalTotalArray[surveysTaken] = surveyItems[surveysTaken-1];
-}
-console.log("surveysTaken",surveysTaken)
-console.log("totalSurveys",totalSurveys)
-if (surveysTaken === 1 || surveysTaken === 2) {
-  //set next survey
-  console.log("setting sList to:",surveyItems[surveysTaken])
-  thisRef.setState(() => ({ itemsForDragForm: surveyItems[surveysTaken], loading: false, showForm: true }))
-}
-else {
-  //done with survey
-  const finalString = finalTotalArray[1]+" and "+finalTotalArray[2]+" and "+finalTotalArray[3];
-  thisRef.setState(() => ({ survey2Answer: finalString }))
-  console.log("final state",thisRef.state)
-  surveysTaken = 0;
-}
+  if(finalItemOrder.length > 0){
+    console.log("finalItemOrder is not empty- survey:"+surveysTaken, finalItemOrder);
+    finalTotalArray[surveysTaken] = finalItemOrder;
+    console.log("saved state:",finalTotalArray[surveysTaken])
+    finalItemOrder = [];
+  }
+  else{
+    console.log("finalItemOrder is  empty", surveyItems[surveysTaken-1]);
+    finalTotalArray[surveysTaken] = surveyItems[surveysTaken-1];
+  }
+  console.log("surveysTaken",surveysTaken)
+  console.log("totalSurveys",totalSurveys)
+  if (surveysTaken === 1 || surveysTaken === 2) {
+    //set next survey
+    console.log("setting sList to:",surveyItems[surveysTaken])
+    thisRef.setState(() => ({ itemsForDragForm: surveyItems[surveysTaken], loading: false, showForm: true }))
+  }
+  else {
+    //done with survey
+    const finalString = finalTotalArray[1]+" and "+finalTotalArray[2]+" and "+finalTotalArray[3];
+    thisRef.setState(() => ({ survey2Answer: finalString }))
+    console.log("final state",thisRef.state)
+    surveysTaken = 0;
+  }
 thisRef.setState(() => ({ loading: false }))
 }
 
@@ -166,20 +166,18 @@ class SurveyForm extends Component {
 
 handleItemListChange(orderValues) {
 //console.log("got in handle:",orderValues)
-let finalItemOrder = [];
+finalItemOrder = [];
 
   for(var i = 0; i<orderValues.length; i++) {
     finalItemOrder[i] = surveyItems[surveysTaken][orderValues[i]]
   }
-    //console.log("finalItemOrder in handle:",finalItemOrder)
+  //console.log("finalItemOrder in handle:",finalItemOrder)
 }
 
   onSubmit = (event) => {
     const thisRef = this;
     this.setState(() => ({ loading: true, showForm: false }))
-
     this.state.initialForm ? callNLPService(thisRef) : processSurveyResult(thisRef);
-
     event.preventDefault();
   }
 
