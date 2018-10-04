@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import FadeIn from 'react-fade-in';
 import { FadeLoader } from 'react-spinners';
 import { functions } from '../firebase';
+import { QRCode } from 'react-qr-svg';
 import OrderList from '../components/orderlist.jsx'
 
 class Survey extends Component {
@@ -246,7 +247,24 @@ finalItemOrder = [];
           </div>
         </div>
 
-          {this.state.survey2Answer && <p className="App-Text" >You chose {this.state.survey2Answer}.  <br/>Thank you for taking the survey</p> }
+          {this.state.survey2Answer && <div> <p className="App-Text" >Thank you for taking the survey!
+          <br/>
+          <br/>You chose:
+          <br/>{this.state.survey2Answer}. </p>
+          <br/>
+          <br/>
+          <p className="App-Text" >You can claim your reward by scanning this QR code</p>
+          <br/>
+          <br/>
+          <br/>
+          <QRCode
+                    bgColor="#FFFFFF"
+                    fgColor="#000000"
+                    level="Q"
+                    style={{ width: 150 }}
+                    value="some text"
+                />
+          </div>}
           { error && <p className="App-Text-Error" >{error.message}</p> }
       </form>
     );
